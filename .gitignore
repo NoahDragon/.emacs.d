@@ -1,0 +1,12 @@
+# Ignore backup files
+\#init.el#
+*~
+
+# Undo-tree save-files
+*.~undo-tree
+
+# Packaging
+.cask
+
+# Compiled
+*.elc
