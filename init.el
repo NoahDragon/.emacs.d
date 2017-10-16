@@ -15,3 +15,6 @@
 ;; Set Evil Mode
 (require 'evil)
   (evil-mode 1)
+
+;; Set Font that support Chinese character
+(add-to-list 'default-frame-alist '(font . "YaHei Consolas Hybrid"))
