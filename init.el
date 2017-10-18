@@ -6,15 +6,38 @@
 
 ;; Set MELPA source
 (require 'package)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/pakcages/"))
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+  (add-to-list 'package-archives (cons "melpa" url) t))
+  (when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
   (package-initialize)
   (unless package-archive-contents (package-refresh-contents))
 
+;; Theme
+(load-theme 'monokai t)
+
+;; Set up the dashboard for welcome
+(require 'dashboard)
+(setq dashboard-startup-banner 'logo)
+(setq dashboard-items '((recents . 5)
+ 			(bookmarks . 5)
+ 			(projects . 5)
+ 			(agenda . 5)
+ 			(registers . 5)))
+(dashboard-setup-startup-hook)
+
 ;; Set Evil Mode
 (require 'evil)
-  (evil-mode 1)
+(evil-mode 1)
+
+;; Set WindMove using shift+arrow keys to switch between windows
+;; Build in above version 21
+(if (version< emacs-version "24.1")
+    (); Do nothing
+  (windmove-default-keybindings))
 
 ;; Set Font that support Chinese character on Windows
 (if (eq system-type 'windows-nt)
@@ -41,4 +64,26 @@
      ;; The original value added to the `image-height' for the test was 19; however,
      ;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
      (> frame-height (+ image-height 17)))))))
-)
+  )
+
+;; Disable menubar, toolbar, scrollbar
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
+
+;; Set keys binding
+; smex
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-x") 'smex-major-mode-commands)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
