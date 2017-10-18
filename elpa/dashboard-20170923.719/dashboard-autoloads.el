@@ -1,9 +1,9 @@
 ;;; dashboard-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "dashboard" "dashboard.el" (23014 6295 0 0))
+;;;### (autoloads nil "dashboard" "dashboard.el" (23015 52828 0 0))
 ;;; Generated autoloads from dashboard.el
 
 (autoload 'dashboard-setup-startup-hook "dashboard" "\
@@ -15,7 +15,7 @@ If a command line argument is provided, assume a filename and skip displaying Da
 ;;;***
 
 ;;;### (autoloads nil nil ("dashboard-pkg.el" "dashboard-widgets.el")
-;;;;;;  (23014 6295 266000 0))
+;;;;;;  (23015 52828 0 0))
 
 ;;;***
 

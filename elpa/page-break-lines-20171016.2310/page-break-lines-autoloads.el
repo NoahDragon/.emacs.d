@@ -1,10 +1,10 @@
 ;;; page-break-lines-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "page-break-lines" "page-break-lines.el" (23014
-;;;;;;  6183 0 0))
+;;;### (autoloads nil "page-break-lines" "page-break-lines.el" (23015
+;;;;;;  52827 0 0))
 ;;; Generated autoloads from page-break-lines.el
 
 (defvar page-break-lines-char 9472 "\
@@ -46,8 +46,9 @@ When `major-mode' is listed in `page-break-lines-modes', then
 \(fn)" nil nil)
 
 (defvar global-page-break-lines-mode nil "\
-Non-nil if Global-Page-Break-Lines mode is enabled.
-See the command `global-page-break-lines-mode' for a description of this minor mode.
+Non-nil if Global Page-Break-Lines mode is enabled.
+See the `global-page-break-lines-mode' command
+for a description of this minor mode.
 Setting this variable directly does not take effect;
 either customize it (see the info node `Easy Customization')
 or call the function `global-page-break-lines-mode'.")
@@ -56,7 +57,7 @@ or call the function `global-page-break-lines-mode'.")
 
 (autoload 'global-page-break-lines-mode "page-break-lines" "\
 Toggle Page-Break-Lines mode in all buffers.
-With prefix ARG, enable Global-Page-Break-Lines mode if ARG is positive;
+With prefix ARG, enable Global Page-Break-Lines mode if ARG is positive;
 otherwise, disable it.  If called from Lisp, enable the mode if
 ARG is omitted or nil.
 

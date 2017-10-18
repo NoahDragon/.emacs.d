@@ -1,9 +1,9 @@
 ;;; monokai-theme-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (or (file-name-directory #$) (car load-path)))
+(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "monokai-theme" "monokai-theme.el" (23014 4009
+;;;### (autoloads nil "monokai-theme" "monokai-theme.el" (23015 52850
 ;;;;;;  0 0))
 ;;; Generated autoloads from monokai-theme.el
 

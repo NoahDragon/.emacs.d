@@ -4,17 +4,14 @@
 ;; All settings should goes here, or sub files.
 ;; 
 
-;; Set MELPA source
-(require 'package)
-  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-  (when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-  (package-initialize)
-  (unless package-archive-contents (package-refresh-contents))
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+(setq load-path (cons "~/.emacs.d/init"   load-path))
+(require 'init-packages)
 
 ;; Theme
 ; Load theme
@@ -26,7 +23,6 @@
 (sml/setup)
 
 ;; Set up the dashboard for welcome
-(require 'dashboard)
 (setq dashboard-startup-banner 'logo)
 (setq dashboard-items '((recents . 5)
  			(bookmarks . 5)
@@ -36,8 +32,10 @@
 (dashboard-setup-startup-hook)
 
 ;; Set Evil Mode
-(require 'evil)
 (evil-mode 1)
+
+;; Set Helm
+(helm-mode 1)
 
 ;; Set WindMove using shift+arrow keys to switch between windows
 ;; Build in above version 21
@@ -84,8 +82,12 @@
 
 ;; Set keys binding
 ; smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-x") 'smex-major-mode-commands)
+; (global-set-key (kbd "M-x") 'smex)
+; (global-set-key (kbd "M-x") 'smex-major-mode-commands)
+; helm
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 ; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
@@ -101,7 +103,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (evil-magit magit smart-mode-line-powerline-theme smex smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

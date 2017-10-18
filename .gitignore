@@ -1,6 +1,7 @@
-# Backup files
-\#init.el#
-*~
+# -*- mode: gitignore; -*-
+
+# Keep gitignore file
+!.gitignore
 
 # Undo-tree save-files
 *.~undo-tree
@@ -8,11 +9,64 @@
 # Packaging
 .cask
 
-# Compiled
-*.elc
-
 # Browers cache
 url/
 
 # Dashboard files
 recentf
+projectile.cache
+projectile-bookmarks.eld
+
+# IDO
+ido.last
+
+# Backup files
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+cache/
+bookmarks
+
+# DS_Store
+.DS_Store
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration
+.dir-locals.el
+
+# Packages installed & byte-compiled by elpa
+elpa/
