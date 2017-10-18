@@ -17,7 +17,13 @@
   (unless package-archive-contents (package-refresh-contents))
 
 ;; Theme
+; Load theme
 (load-theme 'monokai t)
+; Smart mode line for status bar
+(setq custom-safe-themes t)
+; (setq sml/no-confirm-load-theme t) ; This line will create init.elc file
+(setq sml/theme 'powerline)
+(sml/setup)
 
 ;; Set up the dashboard for welcome
 (require 'dashboard)
@@ -66,7 +72,12 @@
      (> frame-height (+ image-height 17)))))))
   )
 
-;; Disable menubar, toolbar, scrollbar
+;; GUI display setting
+; Hide welcome page
+(setq inhibit-startup-screen t)
+; Maximize the windows on startup
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+; Disable menubar, toolbar, scrollbar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -75,12 +86,22 @@
 ; smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-x") 'smex-major-mode-commands)
+; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
+;; Custom Variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
+ '(custom-safe-themes
+   (quote
+    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+ '(package-selected-packages
+   (quote
+    (evil-magit magit smart-mode-line-powerline-theme smex smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
