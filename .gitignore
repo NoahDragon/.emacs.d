@@ -1,4 +1,4 @@
-# Ignore backup files
+# Backup files
 \#init.el#
 *~
 
@@ -10,3 +10,6 @@
 
 # Compiled
 *.elc
+
+# Browers cache
+./url
