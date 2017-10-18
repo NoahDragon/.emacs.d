@@ -12,4 +12,4 @@
 *.elc
 
 # Browers cache
-./url
+url/
