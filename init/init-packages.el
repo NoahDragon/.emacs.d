@@ -26,6 +26,7 @@
     evil-magit
     helm
     magit
+    markdown-mode
     monokai-theme
     powerline
     projectile
