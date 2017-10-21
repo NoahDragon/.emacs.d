@@ -61,6 +61,7 @@ flycheck_*.el
 
 # server auth directory
 /server/
+network-security.data
 
 # projectiles files
 .projectile
