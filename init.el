@@ -92,9 +92,11 @@
 ; Maximize the windows on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ; Disable menubar, toolbar, scrollbar
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(toggle-scroll-bar -1)
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar -1))
+; Disable line wrapping
+(when (fboundp 'toggle-truncate-lines) (toggle-truncate-lines -1))
 ; Display y-n instead of yes-no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -109,6 +111,19 @@
 ; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
+;; Indention settings
+; Disable the new line auto indent
+; Cause the electric indent mode has disable, so bind enter to enable newline indent
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
+(global-set-key (kbd "RET") 'newline-and-indent)
+; Make tab just tab
+(defun just-tab-char ()
+  "Insert a tab char. (ASCII 9, \t)"
+  (interactive)
+  (insert "\t"))
+(global-set-key (kbd "TAB") 'just-tab-char) ; same as Ctrl+i
+
 
 ;; Custom Variables
 (custom-set-variables
