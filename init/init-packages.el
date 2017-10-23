@@ -10,6 +10,7 @@
   '(
     company
     dashboard
+    editorconfig
     evil
     evil-magit
     helm

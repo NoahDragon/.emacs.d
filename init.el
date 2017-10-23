@@ -48,6 +48,11 @@
 ;; Company Mode
 (add-hook 'after-init-hook 'global-company-mode)
 
+;; Turn on editorconfig
+(setq editorconfig-get-properties-function
+           'editorconfig-core-get-properties-hash)
+(editorconfig-mode 1)
+
 ;; Set WindMove using shift+arrow keys to switch between windows
 ;; Build in above version 21
 (if (version< emacs-version "24.1")
@@ -90,6 +95,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
+; Display y-n instead of yes-no
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Set keys binding
 ; smex
@@ -114,7 +121,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (editorconfig company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
