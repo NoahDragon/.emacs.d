@@ -3,13 +3,21 @@
 ;; Get rid of the .emacs to be more version control friendly.
 ;; All settings should goes here, or sub files.
 ;; 
+(require 'package)
+  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+  (add-to-list 'package-archives (cons "melpa" url) t))
+  (when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless package-archive-contents (package-refresh-contents))
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+;; Initialise the package system.
 (package-initialize)
 
+;; Idea from https://github.com/Interesting-Stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/init"   load-path))
 (require 'init-packages)
 
@@ -36,6 +44,9 @@
 
 ;; Set Helm
 (helm-mode 1)
+
+;; Company Mode
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; Set WindMove using shift+arrow keys to switch between windows
 ;; Build in above version 21
@@ -103,7 +114,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
