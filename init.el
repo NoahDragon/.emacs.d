@@ -86,6 +86,22 @@
      (> frame-height (+ image-height 17)))))))
   )
 
+;; Set backup files into temp folder
+(setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
+; Deleting the backup files if it is older than a week
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files temporary-file-directory t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (fifth (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
+
 ;; GUI display setting
 ; Hide welcome page
 (setq inhibit-startup-screen t)
@@ -117,13 +133,6 @@
 ; Cause the electric indent mode has disable, so bind enter to enable newline indent
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 (global-set-key (kbd "RET") 'newline-and-indent)
-; Make tab just tab
-(defun just-tab-char ()
-  "Insert a tab char. (ASCII 9, \t)"
-  (interactive)
-  (insert "\t"))
-(global-set-key (kbd "TAB") 'just-tab-char) ; same as Ctrl+i
-
 
 ;; Custom Variables
 (custom-set-variables
