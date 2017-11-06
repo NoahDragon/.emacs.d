@@ -125,8 +125,12 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
-(bind-key* "<C-Tab>" 'switch-to-next-buffer)
-(bind-key* "<C-S-Tab>" 'switch-to-prev-buffer)
+;(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
+;(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
+(bind-keys*
+  ("C-<tab>" . switch-to-next-buffer)
+  ("C-S-<tab>" . switch-to-prev-buffer)
+  )
 
 ;; Indention settings
 ; Disable the new line auto indent
