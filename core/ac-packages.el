@@ -9,20 +9,22 @@
 ;; Define what packages are required from package.el.
 (defvar required-packages
   '(
-    company
-    dashboard
-    editorconfig
-    evil
-    evil-magit
-    helm
-    bind-key
-    magit
-    markdown-mode
-    monokai-theme
-    powerline
-    projectile
-    smart-mode-line
-    smart-mode-line-powerline-theme
+     company
+     dashboard
+     editorconfig
+     evil
+     evil-indent-textobject 
+     evil-surround
+     evil-tutor
+     helm
+     bind-key
+     magit
+     markdown-mode
+     monokai-theme
+     powerline
+     projectile
+     smart-mode-line
+     smart-mode-line-powerline-theme
     )
   "A list of packages to ensure are installed at launch.")
 

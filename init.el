@@ -9,28 +9,36 @@
        (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
   (add-to-list 'package-archives (cons "melpa" url) t))
   (when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
+  ;; for important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
   (package-initialize)
   (unless package-archive-contents (package-refresh-contents))
 
-;; Initialise the package system.
+;; initialise the package system.
 (package-initialize)
 
-;; Idea from https://github.com/Interesting-Stuff/.emacs.d
+;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
 
-;; Theme
-; Load theme
+;; encoding system
+;; character encodings default to utf-8.
+(prefer-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+
+;; theme
+; load theme
 (load-theme 'monokai t)
-; Smart mode line for status bar
+; smart mode line for status bar
 (setq custom-safe-themes t)
-; (setq sml/no-confirm-load-theme t) ; This line will create init.elc file
+; (setq sml/no-confirm-load-theme t) ; this line will create init.elc file
 (setq sml/theme 'powerline)
 (sml/setup)
 
-;; Set up the dashboard for welcome
+;; set up the dashboard for welcome
 (setq dashboard-startup-banner 'logo)
 (setq dashboard-items '((recents . 5)
  			(bookmarks . 5)
@@ -40,10 +48,11 @@
 (dashboard-setup-startup-hook)
 
 ;; Set Evil Mode
-(evil-mode 1)
+(when (fboundp 'evil-mode) (evil-mode 1))
+(when (fboundp 'global-evil-surround-mode) (global-evil-surround-mode 1))
 
 ;; Set Helm
-(helm-mode 1)
+(when (fboundp 'helm-mode) (helm-mode 1))
 
 ;; Company Mode
 (add-hook 'after-init-hook 'global-company-mode)
@@ -51,7 +60,7 @@
 ;; Turn on editorconfig
 (setq editorconfig-get-properties-function
            'editorconfig-core-get-properties-hash)
-(editorconfig-mode 1)
+(when (fboundp 'editorconfig-mode) (editorconfig-mode 1))
 
 ;; Set WindMove using shift+arrow keys to switch between windows
 ;; Build in above version 21
@@ -125,8 +134,6 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
-;(global-set-key (kbd "C-<tab>") 'switch-to-next-buffer)
-;(global-set-key (kbd "C-S-<tab>") 'switch-to-prev-buffer)
 (bind-keys*
   ("C-<tab>" . switch-to-next-buffer)
   ("C-S-<tab>" . switch-to-prev-buffer)
@@ -145,11 +152,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+    (quote
+      ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
-   (quote
-    (bind-key editorconfig company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (quote
+      (evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
