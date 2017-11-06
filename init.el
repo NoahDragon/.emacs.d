@@ -18,8 +18,8 @@
 (package-initialize)
 
 ;; Idea from https://github.com/Interesting-Stuff/.emacs.d
-(setq load-path (cons "~/.emacs.d/init"   load-path))
-(require 'init-packages)
+(setq load-path (cons "~/.emacs.d/core"   load-path))
+(require 'ac-packages)
 
 ;; Theme
 ; Load theme
@@ -117,9 +117,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Set keys binding
-; smex
-; (global-set-key (kbd "M-x") 'smex)
-; (global-set-key (kbd "M-x") 'smex-major-mode-commands)
 ; helm
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -127,6 +124,9 @@
 ; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+; swith buffers (using bind-key to overwrite the keybindings in other mode)
+(bind-key* "<C-Tab>" 'switch-to-next-buffer)
+(bind-key* "<C-S-Tab>" 'switch-to-prev-buffer)
 
 ;; Indention settings
 ; Disable the new line auto indent
@@ -145,7 +145,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (editorconfig company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (bind-key editorconfig company markdown-mode helm evil-magit magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
