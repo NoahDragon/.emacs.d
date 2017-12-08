@@ -156,7 +156,7 @@
       ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
     (quote
-      (evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+      (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
