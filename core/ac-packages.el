@@ -9,6 +9,7 @@
 ;; Define what packages are required from package.el.
 (defvar required-packages
   '(
+     bind-key
      company
      dashboard
      editorconfig
@@ -17,7 +18,7 @@
      evil-surround
      evil-tutor
      helm
-     bind-key
+     jade-mode
      magit
      markdown-mode
      monokai-theme

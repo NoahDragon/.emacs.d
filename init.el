@@ -10,7 +10,8 @@
   (add-to-list 'package-archives (cons "melpa" url) t))
   (when (< emacs-major-version 24)
   ;; for important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+ (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
   (package-initialize)
   (unless package-archive-contents (package-refresh-contents))
 
@@ -127,12 +128,16 @@
 
 ;; Set keys binding
 ; helm
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(bind-keys
+  ("M-x" . helm-M-x)
+  ("C-x r b" . helm-filtered-bookmarks)
+  ("C-x C-f" . helm-find-files)
+  )
 ; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(bind-keys
+  ("C-x g" . magit-status)
+  ("C-x M-g" . magit-dispatch-popup)
+  )
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
 (bind-keys*
   ("C-<tab>" . switch-to-next-buffer)
@@ -144,6 +149,14 @@
 ; Cause the electric indent mode has disable, so bind enter to enable newline indent
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 (global-set-key (kbd "RET") 'newline-and-indent)
+;; Show column numbers in mode line.
+(setq column-number-mode t)
+;; Never ring the bell. Never.
+(setq ring-bell-function (lambda()))
+;; Don't disable any commands (e.g. `upcase-region').
+(setq disabled-command-function nil)
+;; Don't use dialog boxes.
+(setq use-dialog-box nil)
 
 ;; Custom Variables
 (custom-set-variables
@@ -156,7 +169,7 @@
       ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
     (quote
-      (evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+      (editorconfig-custom-majormode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
