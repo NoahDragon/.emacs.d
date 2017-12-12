@@ -26,6 +26,7 @@
      projectile
      smart-mode-line
      smart-mode-line-powerline-theme
+     yaml-mode
     )
   "A list of packages to ensure are installed at launch.")
 
