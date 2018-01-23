@@ -14,7 +14,11 @@
 
 ;; Set Evil Mode
 (require 'evil)
-  (evil-mode 1)
+  (evil-mode t)
 
 ;; Set Font that support Chinese character
 (add-to-list 'default-frame-alist '(font . "YaHei Consolas Hybrid"))
+
+;; Using IDO mode
+(require 'ido)
+  (ido-mode t)
