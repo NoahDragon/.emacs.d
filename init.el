@@ -69,9 +69,12 @@
     (); Do nothing
   (windmove-default-keybindings))
 
-;; Set Font that support Chinese character on Windows
+;; Set support for windows OS
 (if (eq system-type 'windows-nt)
+    ;; Set Font that support Chinese character on Windows
     (add-to-list 'default-frame-alist '(font . "YaHei Consolas Hybrid"))
+    ;; Set cygwin as the terminal
+    ;; TODO
 )
 
 ;; Fix the logo display issue on Mac

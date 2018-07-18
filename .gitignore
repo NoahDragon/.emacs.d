@@ -9,6 +9,7 @@
 # Packaging
 .cask
 
+
 # Browers cache
 url/
 
@@ -71,3 +72,4 @@ network-security.data
 
 # Packages installed & byte-compiled by elpa
 elpa/
+
