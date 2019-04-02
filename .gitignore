@@ -71,6 +71,5 @@ network-security.data
 .dir-locals.el
 
 # Packages installed & byte-compiled by elpa
-elpa/
-
+/elpa/
 
