@@ -1,4 +1,4 @@
-# -*- mode: gitignore; -*-
+# -*- mode: gitignore; --
 
 # Keep gitignore file
 !.gitignore
@@ -73,5 +73,4 @@ network-security.data
 # Packages installed & byte-compiled by elpa
 elpa/
 
-# Check Commit Change the ending typeXS
 
