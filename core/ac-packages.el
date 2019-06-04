@@ -18,6 +18,7 @@
      evil-surround
      evil-tutor
      helm
+     helm-gtags
      jade-mode
      magit
      markdown-mode

@@ -21,6 +21,7 @@
 ;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
+(require 'ac-functions)
 
 ;; encoding system
 ;; character encodings default to utf-8.
@@ -73,8 +74,6 @@
 (if (eq system-type 'windows-nt)
     ;; Set Font that support Chinese character on Windows
     (add-to-list 'default-frame-alist '(font . "YaHei Consolas Hybrid"))
-    ;; Set cygwin as the terminal
-    ;; TODO
 )
 
 ;; Fix the logo display issue on Mac
@@ -136,6 +135,16 @@
   ("C-x r b" . helm-filtered-bookmarks)
   ("C-x C-f" . helm-find-files)
   )
+; helm-gtags
+(eval-after-load "helm-gtags"
+  '(progn
+      (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+      (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+      (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+      (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 ; magit
 (bind-keys
   ("C-x g" . magit-status)
@@ -146,6 +155,12 @@
   ("C-<tab>" . switch-to-next-buffer)
   ("C-S-<tab>" . switch-to-prev-buffer)
   )
+
+;; Mode hooks
+; helm-gtags-mode
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
 
 ;; Indention settings
 ; Disable the new line auto indent
@@ -172,7 +187,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard))))
+    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
