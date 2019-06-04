@@ -63,29 +63,6 @@
   helm-gtags-suggested-key-mapping t
 )
 
-;; Set Speedbar
-(setq speedbar-show-unknown-files t)
-
-;; Company Mode
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Turn on editorconfig
-(setq editorconfig-get-properties-function
-           'editorconfig-core-get-properties-hash)
-(when (fboundp 'editorconfig-mode) (editorconfig-mode 1))
-
-;; Set WindMove using shift+arrow keys to switch between windows
-;; Build in above version 21
-(if (version< emacs-version "24.1")
-    (); Do nothing
-  (windmove-default-keybindings))
-
-;; Set support for windows OS
-(if (eq system-type 'windows-nt)
-    ;; Set Font that support Chinese character on Windows
-    (add-to-list 'default-frame-alist '(font . "YaHei Consolas Hybrid"))
-)
-
 ;; Fix the logo display issue on Mac
 ;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
 (if (eq system-type 'darwin)
@@ -200,7 +177,15 @@
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'hybrid))
+  (setq projectile-indexing-method 'hybrid)
+)
+(use-package sr-speedbar
+  :ensure t
+  :config
+  (setq sr-speedbar-right-side nil)
+  (setq speedbar-show-unknown-files t)
+  (setq speedbar-use-images t)
+)
 
 ;; Custom Variables
 (custom-set-variables
