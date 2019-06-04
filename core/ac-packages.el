@@ -27,6 +27,8 @@
      projectile
      smart-mode-line
      smart-mode-line-powerline-theme
+     sr-speedbar
+     use-package
     )
   "A list of packages to ensure are installed at launch.")
 

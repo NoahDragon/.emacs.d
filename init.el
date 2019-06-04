@@ -10,13 +10,10 @@
   (add-to-list 'package-archives (cons "melpa" url) t))
   (when (< emacs-major-version 24)
   ;; for important compatibility libraries like cl-lib
- (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
-  (package-initialize)
-  (unless package-archive-contents (package-refresh-contents))
-
-;; initialise the package system.
 (package-initialize)
+(unless package-archive-contents (package-refresh-contents))
 
 ;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
@@ -55,6 +52,19 @@
 
 ;; Set Helm
 (when (fboundp 'helm-mode) (helm-mode 1))
+
+;; Set Helm-Gtags
+(setq
+  helm-gtags-ignore-case t
+  helm-gtags-auto-update t
+  helm-gtags-use-input-at-cursor t
+  helm-gtags-pulse-at-cursor t
+  helm-gtags-prefix-key "\C-cg"
+  helm-gtags-suggested-key-mapping t
+)
+
+;; Set Speedbar
+(setq speedbar-show-unknown-files t)
 
 ;; Company Mode
 (add-hook 'after-init-hook 'global-company-mode)
@@ -138,10 +148,14 @@
 ; helm-gtags
 (eval-after-load "helm-gtags"
   '(progn
+      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+      (define-key helm-gtags-mode-map (kbd "C-=") 'helm-gtags-dwim)
       (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
       (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
       (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
       (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+      (define-key helm-gtags-mode-map (kbd "C-c g h") 'helm-gtags-show-stack)
       (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
       (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
       (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
@@ -158,6 +172,8 @@
 
 ;; Mode hooks
 ; helm-gtags-mode
+(add-hook 'dired-mode-hook 'helm-gtags-mode)
+(add-hook 'eshell-mode-hook 'helm-gtags-mode)
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
@@ -176,6 +192,16 @@
 ;; Don't use dialog boxes.
 (setq use-dialog-box nil)
 
+;; Use-Package
+(use-package projectile
+  :ensure t
+  :bind ( ("C-x P" . projectile-switch-open-project)
+          ("C-x p" . projectile-switch-project))
+  :config
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'hybrid))
+
 ;; Custom Variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -187,7 +213,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags))))
+    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags sr-speedbar))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
