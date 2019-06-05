@@ -185,6 +185,7 @@
   (setq sr-speedbar-right-side nil)
   (setq speedbar-show-unknown-files t)
   (setq speedbar-use-images t)
+  (setq sr-speedbar-max-width 35)
 )
 
 ;; Custom Variables
