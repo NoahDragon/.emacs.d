@@ -27,6 +27,7 @@
      projectile
      smart-mode-line
      smart-mode-line-powerline-theme
+     yaml-mode
      sr-speedbar
      use-package
     )
