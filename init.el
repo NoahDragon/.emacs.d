@@ -125,17 +125,18 @@
 ; helm-gtags
 (eval-after-load "helm-gtags"
   '(progn
-      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
-      (define-key helm-gtags-mode-map (kbd "C-=") 'helm-gtags-dwim)
-      (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
-      (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
-      (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
-      (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
-      (define-key helm-gtags-mode-map (kbd "C-c g h") 'helm-gtags-show-stack)
-      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+     (evil-define-key 'normal helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+     (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+     (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+     ;(define-key helm-gtags-mode-map (kbd "C-=") 'helm-gtags-dwim)
+     (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+     (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+     (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+     (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+     (define-key helm-gtags-mode-map (kbd "C-c g h") 'helm-gtags-show-stack)
+     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
 ; magit
 (bind-keys
   ("C-x g" . magit-status)
@@ -179,13 +180,21 @@
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'hybrid)
 )
-(use-package sr-speedbar
+(use-package neotree
   :ensure t
-  :config
-  (setq sr-speedbar-right-side nil)
-  (setq speedbar-show-unknown-files t)
-  (setq speedbar-use-images t)
-  (setq sr-speedbar-max-width 35)
+  :bind ("C-c n" . neotree-toggle)
+  :init
+  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+  (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+  (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+  (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+  (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+  (setq neo-smart-open t)
+  (setq projectile-switch-project-action 'neotree-projectile-action)
 )
 
 ;; Custom Variables
@@ -199,7 +208,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags sr-speedbar use-package yaml-mode))))
+    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
