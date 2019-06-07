@@ -196,6 +196,10 @@
   (setq neo-smart-open t)
   (setq projectile-switch-project-action 'neotree-projectile-action)
 )
+(use-package helm-ag
+  :ensure t
+  :bind ("C-M-g" . helm-ag)
+)
 
 ;; Custom Variables
 (custom-set-variables
