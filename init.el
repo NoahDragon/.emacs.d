@@ -182,7 +182,7 @@
 )
 (use-package neotree
   :ensure t
-  :bind ("C-c n" . neotree-toggle)
+  :bind ("<f8>" . neotree-toggle)
   :init
   (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)

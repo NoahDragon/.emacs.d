@@ -1,0 +1,3 @@
+Need Manually add the Path to Windows environment.
+
+Tried to use "setx" in batch, it could not handle the # of char exceeding 1024, and will truncate.
