@@ -200,6 +200,9 @@
   :ensure t
   :bind ("C-M-g" . helm-ag)
 )
+(use-package exec-path-from-shell
+  :ensure t
+)
 
 ;; Custom Variables
 (custom-set-variables
