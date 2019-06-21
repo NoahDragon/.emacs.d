@@ -63,9 +63,9 @@
   helm-gtags-suggested-key-mapping t
 )
 
+(if (eq system-type 'darwin)
 ;; Fix the logo display issue on Mac
 ;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
-(if (eq system-type 'darwin)
   (defun use-fancy-splash-screens-p ()
     "Return t if fancy splash screens should be used."
     (when (and (display-graphic-p)
@@ -80,10 +80,13 @@
            ;; by displaying a warning, that doesn't cause the normal
            ;; splash screen to be used.
            (frame-height (1- (frame-height frame))))
-     ;; The original value added to the `image-height' for the test was 19; however,
+     ;; The original value added to the 'image-height' for the test was 19; however,
      ;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
      (> frame-height (+ image-height 17)))))))
-  )
+)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; Set backup files into temp folder
 (setq backup-directory-alist
