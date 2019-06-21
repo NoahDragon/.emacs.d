@@ -85,9 +85,6 @@
      (> frame-height (+ image-height 17)))))))
 )
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 ;; Set backup files into temp folder
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
@@ -205,6 +202,12 @@
 )
 (use-package exec-path-from-shell
   :ensure t
+  :init
+  (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
+)
+(use-package cmake-mode
+  :ensure t
+  :defer t
 )
 
 ;; Custom Variables
