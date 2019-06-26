@@ -19,6 +19,7 @@
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
 (require 'ac-functions)
+(require 'highlight-sexp)
 
 ;; encoding system
 ;; character encodings default to utf-8.
@@ -155,6 +156,9 @@
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
+; highlight sexp
+(add-hook 'lisp-mode-hook 'highlight-sexp-mode)
+(add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
 
 ;; Indention settings
 ; Disable the new line auto indent
