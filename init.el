@@ -177,6 +177,11 @@
 ;; Don't use dialog boxes.
 (setq use-dialog-box nil)
 
+;; Completion ignores filenames ending in any string in this list.
+(setq completion-ignored-extensions
+      '(".o" ".elc" "~" ".bin" ".class" ".exe" ".ps" ".abs" ".mx"
+        ".~jv" ".rbc" ".pyc" ".beam" ".aux" ".out" ".pdf" ".hbc"))
+
 ;; Use-Package
 (use-package projectile
   :ensure t
@@ -221,6 +226,46 @@
   :defer t
   :init
   (advice-add 'python-mode :before 'elpy-enable)
+)
+; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode)
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  ;; Company Backends
+  (use-package company-web
+    :ensure t
+    :defer t
+    :bind (("C-c w" . company-web-html))
+    :config
+    (add-to-list 'company-backends 'company-web-html))
+  (use-package company-elisp
+    :bind (("C-c e" . company-elisp)))
+  (use-package company-gtags
+    :bind (("C-c g" . company-gtags)))
+  (use-package company-statistics
+    :ensure t
+    :config
+    (add-hook 'after-init-hook 'company-statistics-mode))
+)
+; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package company-math
+  :ensure t
+  :defer t
+)
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :bind (:map company-active-map
+	      ("C-c ?" . company-quickhelp-manual-begin))
 )
 
 ;; Custom Variables

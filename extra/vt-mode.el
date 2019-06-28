@@ -6,6 +6,16 @@
 
 (defvar vt-mode-hook nil)
 
+(defvar vt-mode-syntax-table
+  (let ((st (make-syntax-table)))
+	(modify-syntax-entry ?_ "w" st)
+	(modify-syntax-entry ?/ ". 123b" st)
+	(modify-syntax-entry ?* ". 23" st)
+	(modify-syntax-entry ?\n "> b" st)
+	st)
+  "Syntax table for vt-mode")
+    
+
 (setq vt-font-lock-keywords
       (let*(
 	      (x-keywords '("VTConfiguration"))
@@ -27,11 +37,8 @@
 (define-derived-mode vt-mode lisp-mode "VT mode"
   "Major mode for editing VT files, providing the basic sytax highlights."
   ;; code for syntax highlighting
+  (set-syntax-table vt-mode-syntax-table)
   (setq font-lock-defaults '((vt-font-lock-keywords)))
-  (modify-syntax-entry ?_ "w" vt-mode-syntax-table)
-  (modify-syntax-entry ?/ ". 123b" vt-mode-syntax-table)
-  (modify-syntax-entry ?* ". 23" vt-mode-syntax-table)
-  (modify-syntax-entry ?\n "> b" vt-mode-syntax-table)
   )
 (add-to-list 'auto-mode-alist '("\\.vt\\'" . vt-mode))
 
