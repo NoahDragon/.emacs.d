@@ -19,7 +19,10 @@
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
 (require 'ac-functions)
+;; extra folder means something could be removed later on
+(setq load-path (cons "~/.emacs.d/extra"   load-path))
 (require 'highlight-sexp)
+(require 'vt-mode)
 
 ;; encoding system
 ;; character encodings default to utf-8.
@@ -216,6 +219,8 @@
 (use-package elpy
   :ensure t
   :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
 )
 
 ;; Custom Variables
