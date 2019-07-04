@@ -253,6 +253,9 @@
     :bind (("C-c e" . company-elisp)))
   (use-package company-gtags
     :bind (("C-c g" . company-gtags)))
+  (use-package company-yasnippet
+    :config
+    (add-to-list 'company-backends 'company-yasnippet))
   (use-package company-c-headers
     :ensure t
     :config
