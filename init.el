@@ -162,6 +162,8 @@
 ; highlight sexp
 (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
 (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
+; code folding
+(add-hook 'c-mode-common-hook 'hs-minor-mode)
 
 ;; Indention settings
 ; Disable the new line auto indent
@@ -251,6 +253,10 @@
     :bind (("C-c e" . company-elisp)))
   (use-package company-gtags
     :bind (("C-c g" . company-gtags)))
+  (use-package company-c-headers
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-c-headers))
   (use-package company-statistics
     :ensure t
     :config
@@ -266,6 +272,33 @@
   :after company
   :bind (:map company-active-map
 	      ("C-c ?" . company-quickhelp-manual-begin))
+)
+(use-package validate
+  :ensure t
+)
+(use-package smartparens
+  :ensure t
+  :after validate
+  :config
+  (show-smartparens-global-mode 1)
+  (smartparens-global-mode 1)
+)
+(use-package yasnippet
+  :ensure t
+  :config
+  (validate-setq
+   yas-verbosity 1
+   yas-wrap-around-region t)
+
+  (with-eval-after-load 'yasnippet
+    (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
+
+  (yas-reload-all)
+  (yas-global-mode)
+)
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet
 )
 
 ;; Custom Variables
