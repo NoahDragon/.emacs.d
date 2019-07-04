@@ -53,6 +53,8 @@
 ;; Set Evil Mode
 (when (fboundp 'evil-mode) (evil-mode 1))
 (when (fboundp 'global-evil-surround-mode) (global-evil-surround-mode 1))
+(define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
 
 ;; Set Helm
 (when (fboundp 'helm-mode) (helm-mode 1))
