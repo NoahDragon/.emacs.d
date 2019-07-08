@@ -43,21 +43,25 @@
 
 ;; set up the dashboard for welcome
 (setq dashboard-startup-banner 'logo)
-(setq dashboard-items '((recents . 5)
- 			(bookmarks . 5)
- 			(projects . 5)
- 			(agenda . 5)
+(setq dashboard-items '((recents . 15)
+ 			(bookmarks . 10)
+ 			(projects . 25)
+ 			(agenda . 15)
  			(registers . 5)))
 (dashboard-setup-startup-hook)
+(global-set-key (kbd "<M-f8>") 'switch-to-dashboard)
 
 ;; Set Evil Mode
 (when (fboundp 'evil-mode) (evil-mode 1))
 (when (fboundp 'global-evil-surround-mode) (global-evil-surround-mode 1))
 (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
+(evil-set-initial-state 'dashboard-mode 'emacs)
 
 ;; Set Helm
 (when (fboundp 'helm-mode) (helm-mode 1))
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-b") 'helm-mini)
 
 ;; Set Helm-Gtags
 (setq
@@ -150,8 +154,8 @@
   )
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
 (bind-keys*
-  ("C-<tab>" . switch-to-next-buffer)
-  ("C-S-<tab>" . switch-to-prev-buffer)
+  ("C-<tab>" . next-user-buffer)
+  ("C-S-<tab>" . prev-user-buffer)
   )
 
 ;; Mode hooks

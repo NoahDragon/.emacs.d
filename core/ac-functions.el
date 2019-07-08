@@ -31,4 +31,31 @@
     (if (not (one-window-p))
 	(delete-window)))
 
+(defun switch-to-dashboard ()
+  "Switch to dashboard, should install the dashboard plugin."
+  (interactive)
+  (switch-to-buffer "*dashboard*"))
+
+(defun next-user-buffer ()
+  "Next buffer, but skip starred buffers."
+  (interactive)
+  (let (( bread-crumb (buffer-name)))
+    (next-buffer)
+    (while
+	(and
+	 (string-match-p "^\*" (buffer-name))
+	 (not ( equal bread-crumb (buffer-name))))
+      (next-buffer))))
+
+(defun prev-user-buffer ()
+  "Previous buffer, but skip starred buffers."
+  (interactive)
+  (let (( bread-crumb (buffer-name)))
+    (prev-buffer)
+    (while
+	(and
+	 (string-match-p "^\*" (buffer-name))
+	 (not ( equal bread-crumb (buffer-name))))
+      (prev-buffer))))
+
 (provide 'ac-functions)
