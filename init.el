@@ -194,7 +194,8 @@
 (use-package projectile
   :ensure t
   :bind ( ("C-x P" . projectile-switch-open-project)
-          ("C-x p" . projectile-switch-project))
+          ("C-x p" . projectile-switch-project)
+	  ("<M-f3>" . projectile-ag))
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t)
@@ -215,6 +216,9 @@
   (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
   (setq neo-smart-open t)
   (setq projectile-switch-project-action 'neotree-projectile-action)
+)
+(use-package ag
+  :ensure t
 )
 (use-package helm-ag
   :ensure t
@@ -308,6 +312,9 @@
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet
+)
+(use-package flx-ido
+  :ensure t
 )
 
 ;; Custom Variables
