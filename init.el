@@ -194,12 +194,16 @@
 (use-package projectile
   :ensure t
   :bind ( ("C-x P" . projectile-switch-open-project)
-          ("C-x p" . projectile-switch-project)
-	  ("<M-f3>" . projectile-ag))
+          ("C-x p" . projectile-switch-project))
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'hybrid)
+)
+(use-package helm-projectile
+  :ensure t
+  :after projectile
+  :bind ( ("<M-f3>" . helm-projectile-ag))
 )
 (use-package neotree
   :ensure t
@@ -217,12 +221,13 @@
   (setq neo-smart-open t)
   (setq projectile-switch-project-action 'neotree-projectile-action)
 )
-(use-package ag
-  :ensure t
-)
 (use-package helm-ag
   :ensure t
-  :bind ("C-M-g" . helm-ag)
+;  :bind ("C-M-g" . helm-ag)
+)
+(use-package helm-rg
+  :ensure t
+  :bind ("C-M-g" . helm-rg)
 )
 (use-package exec-path-from-shell
   :ensure t
@@ -328,7 +333,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (helm-rg jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
