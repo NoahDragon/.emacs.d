@@ -223,11 +223,11 @@
 )
 (use-package helm-ag
   :ensure t
-;  :bind ("C-M-g" . helm-ag)
+  :bind ("C-M-g" . helm-ag)
 )
 (use-package helm-rg
   :ensure t
-  :bind ("C-M-g" . helm-rg)
+;  :bind ("C-M-g" . helm-rg)
 )
 (use-package exec-path-from-shell
   :ensure t
