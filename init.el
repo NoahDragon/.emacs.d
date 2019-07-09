@@ -19,7 +19,10 @@
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
 (require 'ac-functions)
+;; extra folder means something could be removed later on
+(setq load-path (cons "~/.emacs.d/extra"   load-path))
 (require 'highlight-sexp)
+(require 'vt-mode)
 
 ;; encoding system
 ;; character encodings default to utf-8.
@@ -40,19 +43,25 @@
 
 ;; set up the dashboard for welcome
 (setq dashboard-startup-banner 'logo)
-(setq dashboard-items '((recents . 5)
- 			(bookmarks . 5)
- 			(projects . 5)
- 			(agenda . 5)
+(setq dashboard-items '((recents . 15)
+ 			(bookmarks . 10)
+ 			(projects . 25)
+ 			(agenda . 15)
  			(registers . 5)))
 (dashboard-setup-startup-hook)
+(global-set-key (kbd "<M-f8>") 'switch-to-dashboard)
 
 ;; Set Evil Mode
 (when (fboundp 'evil-mode) (evil-mode 1))
 (when (fboundp 'global-evil-surround-mode) (global-evil-surround-mode 1))
+(define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
+(evil-set-initial-state 'dashboard-mode 'emacs)
 
 ;; Set Helm
 (when (fboundp 'helm-mode) (helm-mode 1))
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-b") 'helm-mini)
 
 ;; Set Helm-Gtags
 (setq
@@ -145,8 +154,8 @@
   )
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
 (bind-keys*
-  ("C-<tab>" . switch-to-next-buffer)
-  ("C-S-<tab>" . switch-to-prev-buffer)
+  ("C-<tab>" . next-user-buffer)
+  ("C-S-<tab>" . prev-user-buffer)
   )
 
 ;; Mode hooks
@@ -159,6 +168,8 @@
 ; highlight sexp
 (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
 (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
+; code folding
+(add-hook 'c-mode-common-hook 'hs-minor-mode)
 
 ;; Indention settings
 ; Disable the new line auto indent
@@ -174,6 +185,11 @@
 ;; Don't use dialog boxes.
 (setq use-dialog-box nil)
 
+;; Completion ignores filenames ending in any string in this list.
+(setq completion-ignored-extensions
+      '(".o" ".elc" "~" ".bin" ".class" ".exe" ".ps" ".abs" ".mx"
+        ".~jv" ".rbc" ".pyc" ".beam" ".aux" ".out" ".pdf" ".hbc"))
+
 ;; Use-Package
 (use-package projectile
   :ensure t
@@ -183,6 +199,11 @@
   (projectile-global-mode)
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'hybrid)
+)
+(use-package helm-projectile
+  :ensure t
+  :after projectile
+  :bind ( ("<M-f3>" . helm-projectile-ag))
 )
 (use-package neotree
   :ensure t
@@ -202,7 +223,11 @@
 )
 (use-package helm-ag
   :ensure t
-  :bind ("C-M-g" . helm-ag)
+;  :bind ("C-M-g" . helm-ag)
+)
+(use-package helm-rg
+  :ensure t
+  :bind ("C-M-g" . helm-rg)
 )
 (use-package exec-path-from-shell
   :ensure t
@@ -217,7 +242,84 @@
   :ensure t
   :defer t
   :init
-  (advice-add 'python-mode :before 'elp-enable)
+  (advice-add 'python-mode :before 'elpy-enable)
+)
+; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
+(use-package company
+  :ensure t
+  :config
+  (global-company-mode)
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "S-TAB") 'company-select-previous)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  ;; Company Backends
+  (use-package company-web
+    :ensure t
+    :defer t
+    :bind (("C-c w" . company-web-html))
+    :config
+    (add-to-list 'company-backends 'company-web-html))
+  (use-package company-elisp
+    :bind (("C-c e" . company-elisp)))
+  (use-package company-gtags
+    :bind (("C-c g" . company-gtags)))
+  (use-package company-yasnippet
+    :config
+    (add-to-list 'company-backends 'company-yasnippet))
+  (use-package company-c-headers
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-c-headers))
+  (use-package company-statistics
+    :ensure t
+    :config
+    (add-hook 'after-init-hook 'company-statistics-mode))
+)
+; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package company-math
+  :ensure t
+  :defer t
+)
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :bind (:map company-active-map
+	      ("C-c ?" . company-quickhelp-manual-begin))
+)
+(use-package validate
+  :ensure t
+)
+(use-package smartparens
+  :ensure t
+  :after validate
+  :config
+  (show-smartparens-global-mode 1)
+  (smartparens-global-mode 1)
+)
+(use-package yasnippet
+  :ensure t
+  :config
+  (validate-setq
+   yas-verbosity 1
+   yas-wrap-around-region t)
+
+  (with-eval-after-load 'yasnippet
+    (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
+
+  (yas-reload-all)
+  (yas-global-mode)
+)
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet
+)
+(use-package flx-ido
+  :ensure t
 )
 
 ;; Custom Variables
@@ -231,7 +333,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (helm-rg jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
