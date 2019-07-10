@@ -194,16 +194,12 @@
 (use-package projectile
   :ensure t
   :bind ( ("C-x P" . projectile-switch-open-project)
-          ("C-x p" . projectile-switch-project))
+          ("C-x p" . projectile-switch-project)
+	  ("<M-f3>" . projectile-ag))
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'hybrid)
-)
-(use-package helm-projectile
-  :ensure t
-  :after projectile
-  :bind ( ("<M-f3>" . helm-projectile-ag))
 )
 (use-package neotree
   :ensure t
@@ -224,10 +220,6 @@
 (use-package helm-ag
   :ensure t
   :bind ("C-M-g" . helm-ag)
-)
-(use-package helm-rg
-  :ensure t
-;  :bind ("C-M-g" . helm-rg)
 )
 (use-package exec-path-from-shell
   :ensure t
