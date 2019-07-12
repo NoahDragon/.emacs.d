@@ -75,3 +75,4 @@ network-security.data
 
 # Custom
 vim.exe.stackdump
+/transient
