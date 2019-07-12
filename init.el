@@ -52,10 +52,11 @@
 (global-set-key (kbd "<M-f8>") 'switch-to-dashboard)
 
 ;; Change the comint mode up/down key behavior more like terminal
-(define-key comint-mode-map (kbd "<up>") 'comint-previous-input)
-(define-key comint-mode-map (kbd "<down>") 'comint-next-input)
-(define-key comint-mode-map (kbd "<C-up>") 'previous-line)
-(define-key comint-mode-map (kbd "<C-down>") 'next-line)
+(require 'shell)
+(define-key shell-mode-map (kbd "<up>") 'comint-previous-input)
+(define-key shell-mode-map (kbd "<down>") 'comint-next-input)
+(define-key shell-mode-map (kbd "<C-up>") 'previous-line)
+(define-key shell-mode-map (kbd "<C-down>") 'next-line)
 
 ;; Set Evil Mode
 (when (fboundp 'evil-mode) (evil-mode 1))
