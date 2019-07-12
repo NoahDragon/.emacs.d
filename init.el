@@ -144,9 +144,11 @@
      (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
      (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
      (define-key helm-gtags-mode-map (kbd "C-c g h") 'helm-gtags-show-stack)
-     (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-     (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+     (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-previous-history)
+     (define-key helm-gtags-mode-map (kbd "M-<") 'helm-gtags-next-history)
+     ;(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+   )
+)
 ; magit
 (bind-keys
   ("C-x g" . magit-status)
@@ -312,6 +314,11 @@
 )
 (use-package flx-ido
   :ensure t
+)
+(use-package p4
+  :ensure t
+  :config
+  (p4-set-p4-config "p4config")
 )
 
 ;; Custom Variables
