@@ -73,3 +73,5 @@ network-security.data
 # Packages installed & byte-compiled by elpa
 /elpa/
 
+# Custom
+vim.exe.stackdump
