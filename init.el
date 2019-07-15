@@ -229,7 +229,12 @@
 
 (use-package helm-ag
   :ensure t
-  :bind ("C-M-g" . helm-ag))
+  ;:bind ("C-M-g" . helm-ag)
+  )
+
+(use-package helm-rg
+  :ensure t
+  :bind ("C-M-g" . helm-rg))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -341,7 +346,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
