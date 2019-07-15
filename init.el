@@ -209,8 +209,8 @@
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t)
-  (setq projectile-indexing-method 'hybrid)
-)
+  (setq projectile-indexing-method 'hybrid))
+
 (use-package neotree
   :ensure t
   :bind ("<f8>" . neotree-toggle)
@@ -225,27 +225,27 @@
   (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
   (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
   (setq neo-smart-open t)
-  (setq projectile-switch-project-action 'neotree-projectile-action)
-)
+  (setq projectile-switch-project-action 'neotree-projectile-action))
+
 (use-package helm-ag
   :ensure t
-  :bind ("C-M-g" . helm-ag)
-)
+  :bind ("C-M-g" . helm-ag))
+
 (use-package exec-path-from-shell
   :ensure t
   :init
-  (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
-)
+  (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
+
 (use-package cmake-mode
   :ensure t
-  :defer t
-)
+  :defer t)
+
 (use-package elpy
   :ensure t
   :defer t
   :init
-  (advice-add 'python-mode :before 'elpy-enable)
-)
+  (advice-add 'python-mode :before 'elpy-enable))
+
 ; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
 (use-package company
   :ensure t
@@ -280,29 +280,29 @@
   (use-package company-statistics
     :ensure t
     :config
-    (add-hook 'after-init-hook 'company-statistics-mode))
-)
+    (add-hook 'after-init-hook 'company-statistics-mode)))
+
 ; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (use-package company-math
   :ensure t
-  :defer t
-)
+  :defer t)
+
 (use-package company-quickhelp
   :ensure t
   :after company
   :bind (:map company-active-map
-	      ("C-c ?" . company-quickhelp-manual-begin))
-)
+	      ("C-c ?" . company-quickhelp-manual-begin)))
+
 (use-package validate
-  :ensure t
-)
+  :ensure t)
+
 (use-package smartparens
   :ensure t
   :after validate
   :config
   (show-smartparens-global-mode 1)
-  (smartparens-global-mode 1)
-)
+  (smartparens-global-mode 1))
+
 (use-package yasnippet
   :ensure t
   :config
@@ -314,20 +314,19 @@
     (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
 
   (yas-reload-all)
-  (yas-global-mode)
-)
+  (yas-global-mode))
+
 (use-package yasnippet-snippets
   :ensure t
-  :after yasnippet
-)
+  :after yasnippet)
+
 (use-package flx-ido
-  :ensure t
-)
+  :ensure t)
+
 (use-package p4
   :ensure t
   :config
-  (p4-set-p4-config "p4config")
-)
+  (p4-set-p4-config "p4config"))
 
 ;; Custom Variables
 (custom-set-variables
@@ -340,7 +339,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (helm-rg jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig company markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line projectile powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -10,7 +10,6 @@
 (defvar required-packages
   '(
      bind-key
-     company
      dashboard
      editorconfig
      evil
@@ -24,7 +23,6 @@
      markdown-mode
      monokai-theme
      powerline
-     projectile
      smart-mode-line
      smart-mode-line-powerline-theme
      yaml-mode
