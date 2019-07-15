@@ -249,8 +249,10 @@
 ; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
 (use-package company
   :ensure t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  :bind ("C-;" . company-complete)
   :config
-  (global-company-mode)
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
