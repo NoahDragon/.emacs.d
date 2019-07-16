@@ -51,11 +51,11 @@
   "Previous buffer, but skip starred buffers."
   (interactive)
   (let (( bread-crumb (buffer-name)))
-    (prev-buffer)
+    (previous-buffer)
     (while
 	(and
 	 (string-match-p "^\*" (buffer-name))
 	 (not ( equal bread-crumb (buffer-name))))
-      (prev-buffer))))
+      (previous-buffer))))
 
 (provide 'ac-functions)

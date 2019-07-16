@@ -4,13 +4,13 @@
 ;; All settings should goes here, or sub files.
 ;; 
 (require 'package)
-  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-  (when (< emacs-major-version 24)
-  ;; for important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+		(not (gnutls-available-p))))
+    (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+(add-to-list 'package-archives (cons "melpa" url) t))
+(when (< emacs-major-version 24)
+;; for important compatibility libraries like cl-lib
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
@@ -80,28 +80,6 @@
   helm-gtags-suggested-key-mapping t
 )
 
-(if (eq system-type 'darwin)
-;; Fix the logo display issue on Mac
-;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
-  (defun use-fancy-splash-screens-p ()
-    "Return t if fancy splash screens should be used."
-    (when (and (display-graphic-p)
-               (or (and (display-color-p)
-            (image-type-available-p 'xpm))
-                   (image-type-available-p 'pbm)))
-      (let ((frame (fancy-splash-frame)))
-        (when frame
-    (let* ((img (create-image (fancy-splash-image-file)))
-           (image-height (and img (cdr (image-size img nil frame))))
-           ;; We test frame-height so that, if the frame is split
-           ;; by displaying a warning, that doesn't cause the normal
-           ;; splash screen to be used.
-           (frame-height (1- (frame-height frame))))
-     ;; The original value added to the 'image-height' for the test was 19; however,
-     ;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
-     (> frame-height (+ image-height 17)))))))
-)
-
 ;; Set backup files into temp folder
 (setq backup-directory-alist
           `((".*" . ,temporary-file-directory)))
@@ -165,6 +143,8 @@
 (bind-keys*
   ("C-<tab>" . next-user-buffer)
   ("C-S-<tab>" . prev-user-buffer)
+  ("C-M-<tab>" . next-buffer)
+  ("C-M-S-<tab>" . previous-buffer)
   )
 
 ;; Mode hooks
@@ -229,12 +209,8 @@
 
 (use-package helm-ag
   :ensure t
-  ;:bind ("C-M-g" . helm-ag)
+  :bind ("C-M-g" . helm-ag)
   )
-
-(use-package helm-rg
-  :ensure t
-  :bind ("C-M-g" . helm-rg))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -334,6 +310,39 @@
   :ensure t
   :config
   (p4-set-p4-config "p4config"))
+
+
+;; System Specific
+(if (eq system-type 'darwin)
+    (progn 
+    ;; Fix the logo display issue on Mac
+    ;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
+    (defun use-fancy-splash-screens-p ()
+	"Return t if fancy splash screens should be used."
+	(when (and (display-graphic-p)
+		(or (and (display-color-p)
+		(image-type-available-p 'xpm))
+		    (image-type-available-p 'pbm)))
+	(let ((frame (fancy-splash-frame)))
+	    (when frame
+	(let* ((img (create-image (fancy-splash-image-file)))
+	    (image-height (and img (cdr (image-size img nil frame))))
+	    ;; We test frame-height so that, if the frame is split
+	    ;; by displaying a warning, that doesn't cause the normal
+	    ;; splash screen to be used.
+	    (frame-height (1- (frame-height frame))))
+	;; The original value added to the 'image-height' for the test was 19; however,
+	;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
+	(> frame-height (+ image-height 17)))))))
+    ;; Use ripgrep as difault search engine
+    (use-package helm-rg
+      :ensure t
+      :bind ("C-M-g" . helm-rg))
+    (use-package projectile-ripgrep
+      :ensure t
+      :bind ("<M-f3>" . projectile-ripgrep))
+  )
+)
 
 ;; Custom Variables
 (custom-set-variables
