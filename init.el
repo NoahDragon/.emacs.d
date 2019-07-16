@@ -313,6 +313,39 @@
   :config
   (p4-set-p4-config "p4config"))
 
+(use-package dired-hacks-utils
+  :ensure t
+  :config
+  (use-package dired-filter
+    :ensure t)
+  (use-package dired-subtree
+    :ensure t)
+  (use-package dired-open
+    :ensure t)
+  (use-package dired-avfs
+    :ensure t)
+  (use-package dired-rainbow
+    :ensure t)
+  (use-package dired-ranger
+    :ensure t)
+  (use-package dired-narrow
+    :ensure t)
+  ;; (use-package dired-list
+    ;; :ensure t)
+  (use-package dired-collapse
+    :ensure t))
+
+(use-package peep-dired
+  :ensure t
+  :init
+  (evil-define-key 'normal dired-mode-map (kbd "<SPC>") 'peep-dired)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "=") 'peep-dired-scroll-page-down)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "<backspace>") 'peep-dired-scroll-page-up)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+  (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+  :config
+  (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
 
 ;; System Specific
 (if (eq system-type 'darwin)
