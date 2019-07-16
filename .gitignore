@@ -9,6 +9,8 @@
 # Packaging
 .cask
 
+# Dired
+image-dired/
 
 # Browers cache
 url/
