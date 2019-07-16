@@ -319,7 +319,11 @@
   (use-package dired-filter
     :ensure t)
   (use-package dired-subtree
-    :ensure t)
+    :ensure t
+    :init
+    (evil-define-key 'normal dired-mode-map (kbd "TAB") 'dired-subtree-toggle)
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-subtree-up)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-subtree-down))
   (use-package dired-open
     :ensure t)
   (use-package dired-avfs
@@ -339,10 +343,10 @@
   :ensure t
   :init
   (evil-define-key 'normal dired-mode-map (kbd "<SPC>") 'peep-dired)
-  (evil-define-key 'normal peep-dired-mode-map (kbd "=") 'peep-dired-scroll-page-down)
-  (evil-define-key 'normal peep-dired-mode-map (kbd "<backspace>") 'peep-dired-scroll-page-up)
-  (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-  (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "-") 'peep-dired-scroll-page-down)
+  (evil-define-key 'normal peep-dired-mode-map (kbd "=") 'peep-dired-scroll-page-up)
+  ;; (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+  ;; (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
   (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
   :config
   (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
