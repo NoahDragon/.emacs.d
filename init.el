@@ -55,8 +55,8 @@
 (require 'shell)
 (define-key shell-mode-map (kbd "<up>") 'comint-previous-input)
 (define-key shell-mode-map (kbd "<down>") 'comint-next-input)
-(define-key shell-mode-map (kbd "<C-up>") 'previous-line)
-(define-key shell-mode-map (kbd "<C-down>") 'next-line)
+(define-key shell-mode-map (kbd "<M-up>") 'previous-line)
+(define-key shell-mode-map (kbd "<M-down>") 'next-line)
 
 ;; Set Evil Mode
 (when (fboundp 'evil-mode) (evil-mode 1))
