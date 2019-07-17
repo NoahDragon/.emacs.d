@@ -339,7 +339,7 @@
     :ensure t)
   (use-package dired-avfs
     :ensure t
-    :if (executable-find* "mountavfs"))
+    :if (executable-find "mountavfs"))
   (use-package dired-rainbow
     :ensure t
     :config
