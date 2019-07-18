@@ -146,6 +146,10 @@
   ("C-M-<tab>" . next-buffer)
   ("C-M-S-<tab>" . previous-buffer)
   )
+; misc
+(bind-keys
+  ("C-M-m" . toggle-frame-fullscreen)
+  )
 
 ;; Mode hooks
 ; helm-gtags-mode
@@ -417,7 +421,6 @@
 	;; The original value added to the 'image-height' for the test was 19; however,
 	;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
 	(> frame-height (+ image-height 17)))))))
-
     (setq ispell-program-name "/usr/local/bin/aspell")
     ;; Use ripgrep as difault search engine
     (use-package helm-rg
