@@ -339,7 +339,7 @@
     :ensure t)
   (use-package dired-avfs
     :ensure t
-    :if (executable-find* "mountavfs"))
+    :if (executable-find "mountavfs"))
   (use-package dired-rainbow
     :ensure t
     :config
@@ -389,6 +389,12 @@
   :config
   (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
 
+(use-package helm-swoop
+  :ensure t)
+
+(use-package multiple-cursors
+  :ensure t)
+
 ;; System Specific
 (if (eq system-type 'darwin)
     (progn 
@@ -411,6 +417,8 @@
 	;; The original value added to the 'image-height' for the test was 19; however,
 	;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
 	(> frame-height (+ image-height 17)))))))
+
+    (setq ispell-program-name "/usr/local/bin/aspell")
     ;; Use ripgrep as difault search engine
     (use-package helm-rg
       :ensure t
@@ -418,6 +426,9 @@
     (use-package projectile-ripgrep
       :ensure t
       :bind ("<M-f3>" . projectile-ripgrep))
+    ; To enable flyspell, the backend aspell should be installed.
+    (use-package flyspell-correct-helm
+      :ensure t)
   )
 )
 
