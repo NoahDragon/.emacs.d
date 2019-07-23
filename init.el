@@ -151,6 +151,7 @@
 (bind-keys
   ("C-M-m" . toggle-frame-fullscreen)
   ("C-x 4 o" . close-and-kill-next-pane)
+  ("C-x 4 k" . close-and-kill-this-pane)
   )
 
 ;; Mode hooks
@@ -398,8 +399,13 @@
 (use-package helm-swoop
   :ensure t)
 
-(use-package multiple-cursors
-  :ensure t)
+(use-package evil-mc
+  :ensure t
+  :config
+  (global-evil-mc-mode 1)
+  (evil-define-key 'visual evil-mc-key-map
+    "A" #'evil-mc-make-cursor-in-visual-selection-end
+    "I" #'evil-mc-make-cursor-in-visual-selection-beg))
 
 ;; System Specific
 (if (eq system-type 'darwin)
@@ -448,7 +454,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
