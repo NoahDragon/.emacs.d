@@ -123,6 +123,7 @@
      (evil-define-key 'normal helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
      (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
      (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+     (define-key helm-gtags-mode-map (kbd "C-c r") 'helm-gtags-resume)
      ;(define-key helm-gtags-mode-map (kbd "C-=") 'helm-gtags-dwim)
      (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
      (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
@@ -149,6 +150,7 @@
 ; misc
 (bind-keys
   ("C-M-m" . toggle-frame-fullscreen)
+  ("C-x 4 o" . close-and-kill-next-pane)
   )
 
 ;; Mode hooks
