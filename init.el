@@ -407,6 +407,16 @@
     "A" #'evil-mc-make-cursor-in-visual-selection-end
     "I" #'evil-mc-make-cursor-in-visual-selection-beg))
 
+(use-package evil-numbers
+  :ensure t
+  :bind (:map evil-normal-state-map
+	 ("C-c +" . evil-numbers/inc-at-pt)
+	 ("C-c -" . evil-numbers/dec-at-pt)
+	 :map evil-visual-state-map
+	 ("C-c +" . evil-numbers/inc-at-pt)
+	 ("C-c -" . evil-numbers/dec-at-pt)))
+
+
 ;; System Specific
 (if (eq system-type 'darwin)
     (progn 
@@ -454,7 +464,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (evil-numbers evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
