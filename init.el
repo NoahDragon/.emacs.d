@@ -34,12 +34,19 @@
 
 ;; theme
 ; load theme
-(load-theme 'monokai t)
-; smart mode line for status bar
-(setq custom-safe-themes t)
-; (setq sml/no-confirm-load-theme t) ; this line will create init.elc file
-(setq sml/theme 'powerline)
-(sml/setup)
+(use-package solarized-theme
+  :ensure t
+  :init
+  (load-theme 'solarized-dark t))
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (use-package smart-mode-line-powerline-theme
+    :ensure t)
+  (setq custom-safe-themes t)
+  (setq sml/theme 'dark)
+  (sml/setup)
+  )
 
 ;; set up the dashboard for welcome
 (setq dashboard-startup-banner 'logo)
@@ -415,6 +422,10 @@
 	 :map evil-visual-state-map
 	 ("C-c +" . evil-numbers/inc-at-pt)
 	 ("C-c -" . evil-numbers/dec-at-pt)))
+(use-package evil-nerd-commenter
+  :ensure t
+  :init
+  (evilnc-default-hotkeys))
 
 
 ;; System Specific
@@ -464,7 +475,7 @@
     ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(package-selected-packages
    (quote
-    (evil-numbers evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (evil-nerd-commenter evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
