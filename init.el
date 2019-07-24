@@ -158,7 +158,7 @@
 (bind-keys
   ("C-M-m" . toggle-frame-fullscreen)
   ("C-x 4 o" . close-and-kill-next-pane)
-  ("C-x 4 k" . close-and-kill-this-pane)
+  ;; ("C-x 4 k" . close-and-kill-this-pane)
   )
 
 ;; Mode hooks
