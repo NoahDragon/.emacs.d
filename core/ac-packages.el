@@ -10,10 +10,8 @@
 (defvar required-packages
   '(
      bind-key
-     dashboard
-     editorconfig
      evil
-     evil-indent-textobject 
+     evil-indent-textobject
      evil-surround
      evil-tutor
      helm
@@ -23,8 +21,6 @@
      markdown-mode
      monokai-theme
      powerline
-     smart-mode-line
-     smart-mode-line-powerline-theme
      yaml-mode
      use-package
     )

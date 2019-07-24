@@ -2,7 +2,7 @@
 ;;
 ;; Get rid of the .emacs to be more version control friendly.
 ;; All settings should goes here, or sub files.
-;; 
+;;
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
 		(not (gnutls-available-p))))
@@ -79,6 +79,7 @@
 (when (fboundp 'helm-mode) (helm-mode 1))
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x C-b") 'helm-mini)
+(global-set-key (kbd "C-c i") 'helm-imenu)
 
 ;; Set Helm-Gtags
 (setq
@@ -164,7 +165,7 @@
   ;; ("C-x 4 k" . close-and-kill-this-pane)
   )
 
-;; Mode hooks
+;; Hooks
 ; helm-gtags-mode
 (add-hook 'dired-mode-hook 'helm-gtags-mode)
 (add-hook 'eshell-mode-hook 'helm-gtags-mode)
@@ -176,6 +177,8 @@
 (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode)
 ; code folding
 (add-hook 'c-mode-common-hook 'hs-minor-mode)
+; Remove trailing whitespaces when save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Dired setting
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
@@ -189,6 +192,8 @@
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
 ;; Indention settings
+; Disable Tab indent
+;; (setq-default indent-tabs-mode nil)
 ; Disable the new line auto indent
 ; Cause the electric indent mode has disable, so bind enter to enable newline indent
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
@@ -201,6 +206,9 @@
 (setq disabled-command-function nil)
 ;; Don't use dialog boxes.
 (setq use-dialog-box nil)
+
+;; display lambda as λ
+(global-prettify-symbols-mode 1)
 
 ;; Completion ignores filenames ending in any string in this list.
 (setq completion-ignored-extensions
@@ -428,11 +436,15 @@
   :ensure t
   :init
   (evilnc-default-hotkeys))
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
 
 
 ;; System Specific
 (if (eq system-type 'darwin)
-    (progn 
+    (progn
     ;; Fix the logo display issue on Mac
     ;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
     (defun use-fancy-splash-screens-p ()
