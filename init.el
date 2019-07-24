@@ -7,10 +7,10 @@
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
 		(not (gnutls-available-p))))
     (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-(add-to-list 'package-archives (cons "melpa" url) t))
+  (add-to-list 'package-archives (cons "melpa" url) t))
 (when (< emacs-major-version 24)
-;; for important compatibility libraries like cl-lib
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+  ;; for important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
@@ -33,7 +33,6 @@
 (set-selection-coding-system 'utf-8)
 
 ;; theme
-; load theme
 (use-package solarized-theme
   :ensure t
   :init
@@ -319,14 +318,13 @@
 
 (use-package yasnippet
   :ensure t
+  :init
+  (with-eval-after-load 'yasnippet
+    (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
   :config
   (validate-setq
    yas-verbosity 1
    yas-wrap-around-region t)
-
-  (with-eval-after-load 'yasnippet
-    (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
-
   (yas-reload-all)
   (yas-global-mode))
 
