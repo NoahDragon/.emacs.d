@@ -49,14 +49,17 @@
   )
 
 ;; set up the dashboard for welcome
-(setq dashboard-startup-banner 'logo)
-(setq dashboard-items '((recents . 15)
- 			(bookmarks . 10)
- 			(projects . 25)
- 			(agenda . 15)
- 			(registers . 5)))
-(dashboard-setup-startup-hook)
-(global-set-key (kbd "<M-f8>") 'switch-to-dashboard)
+(use-package dashboard
+  :ensure t
+  :bind (("<M-f8>" . switch-to-dashboard))
+  :init
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-items '((recents . 15)
+  			(bookmarks . 10)
+  			(projects . 25)
+  			(agenda . 15)
+  			(registers . 5)))
+  (dashboard-setup-startup-hook))
 
 ;; Change the comint mode up/down key behavior more like terminal
 (require 'shell)
@@ -70,7 +73,8 @@
 (when (fboundp 'global-evil-surround-mode) (global-evil-surround-mode 1))
 (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
-(evil-set-initial-state 'dashboard-mode 'emacs)
+;; (evil-set-initial-state 'dashboard-mode 'emacs)
+;; (evil-define-key 'normal dashboard-mode-map (kbd "M-.") 'helm-gtags-dwim)
 
 ;; Set Helm
 (when (fboundp 'helm-mode) (helm-mode 1))
