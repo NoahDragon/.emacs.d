@@ -94,6 +94,8 @@
 (when (fboundp 'toggle-truncate-lines) (toggle-truncate-lines -1))
 ; Display y-n instead of yes-no
 (defalias 'yes-or-no-p 'y-or-n-p)
+; Show line number
+(global-linum-mode t)
 
 ;; Set keys binding
 ; helm
@@ -137,6 +139,7 @@
   ("C-M-m" . toggle-frame-fullscreen)
   ("C-x 4 o" . close-and-kill-next-pane)
   ;; ("C-x 4 k" . close-and-kill-this-pane)
+  ("C-c SPC" . evil-avy-goto-word-1)
   )
 
 ;; Hooks

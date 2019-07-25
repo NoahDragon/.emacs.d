@@ -58,6 +58,8 @@
       :bind (("<M-f8>" . switch-to-dashboard))
       :init
       (setq dashboard-startup-banner 'logo)
+      (setq dashboard-set-heading-icons t)
+      (setq dashboard-set-navigator t)
       (setq dashboard-items '((recents . 15)
             (bookmarks . 10)
             (projects . 25)
@@ -302,6 +304,15 @@
       :ensure t
       :config
       (editorconfig-mode 1))
+
+    (use-package keyfreq
+      :ensure t
+      :config
+      (keyfreq-mode 1)
+      (keyfreq-autosave-mode 1))
+
+    (use-package avy
+      :ensure t)
 
     )
   )
