@@ -220,6 +220,17 @@
       :ensure t
       :init
       (add-hook 'after-init-hook 'global-company-mode)
+      (setq company-idle-delay 0
+            company-echo-delay 0
+            company-minimum-prefix-length 2
+            company-show-numbers t
+            company-tooltip-limit 20
+            company-dabbrev-downcase nil
+            company-dabbrev-ignore-case nil
+            company-dabbrev-code-other-buffers t
+            company-require-match 'never
+            company-global-modes
+            (global-company-mode +1))
       :bind ("C-;" . company-complete)
       :config
       (define-key company-active-map (kbd "M-n") nil)
@@ -238,9 +249,13 @@
         :config
         (add-to-list 'company-backends 'company-web-html))
       (use-package company-elisp
-        :bind (("C-c e" . company-elisp)))
+        :bind (("C-c e" . company-elisp))
+        :config
+        (add-to-list 'company-backends 'company-elisp))
       (use-package company-gtags
-        :bind (("C-c g" . company-gtags)))
+        :bind (("C-c g" . company-gtags))
+        :config
+        (add-to-list 'company-backends 'company-gtags))
       (use-package company-yasnippet
         :config
         (add-to-list 'company-backends 'company-yasnippet))
@@ -255,7 +270,12 @@
       (use-package company-statistics
         :ensure t
         :config
-        (add-hook 'after-init-hook 'company-statistics-mode)))
+        (add-hook 'after-init-hook 'company-statistics-mode))
+      ;; (use-package company-irony
+      ;;   :ensure t
+      ;;   :config
+      ;;   (add-to-list 'company-backends 'company-irony))
+      )
 
     ; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
     (use-package company-math
@@ -267,6 +287,13 @@
       :after company
       :bind (:map company-active-map
             ("C-c ?" . company-quickhelp-manual-begin)))
+
+    ;; (use-package irony
+    ;;   :ensure t
+    ;;   :hook ( (c++-mode . irony-mode)
+    ;;           (c-mode . irony-mode)
+    ;;           (objc-mode-hook . irony-mode)
+    ;;           (irony-mode . irony-cdb-autosetup-compile-options)))
 
     (use-package validate
       :ensure t)
