@@ -95,7 +95,6 @@
 ; Misc
 (bind-keys
   ("C-M-m" . toggle-frame-fullscreen)
-  ("C-x 4 o" . close-and-kill-next-pane)
   )
 
 ;; Hooks
