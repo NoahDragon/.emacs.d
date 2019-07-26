@@ -9,6 +9,18 @@
       (browse-url-of-file (expand-file-name default-directory))
     (error "No `default-directory' to open")))
 
+(defun disable-global-linum-mode()
+  "Disable global-linum-mode."
+  (add-hook 'after-change-major-mode-hook
+    (lambda () (linum-mode 0))
+    :append :local))
+
+(defun disable-global-nlinum-mode()
+  "Disable global-nlinum-mode."
+  (add-hook 'after-change-major-mode-hook
+    (lambda () (nlinum-mode 0))
+    :append :local))
+
 ;; Buffer operations
 ;; Ref: https://www.emacswiki.org/emacs/KillingBuffers
 (defun kill-other-buffers ()

@@ -9,18 +9,6 @@
 ;; Define what packages are required from package.el.
 (defvar required-packages
   '(
-     bind-key
-     evil
-     evil-indent-textobject
-     evil-surround
-     evil-tutor
-     helm
-     helm-gtags
-     jade-mode
-     magit
-     markdown-mode
-     powerline
-     yaml-mode
      use-package
     )
   "A list of packages to ensure are installed at launch.")
@@ -52,22 +40,117 @@
 
 (defun ac-load-packages ()
   (progn
+    (use-package all-the-icons
+      :ensure t)
+    (use-package nlinum
+      :ensure t)
+    ;; Evil
+    (use-package evil
+      :ensure t
+      :bind (( "C-c SPC" . evil-avy-goto-word-1))
+      :init
+      (evil-mode 1)
+      :config
+      (use-package evil-indent-textobject
+        :ensure t)
+      (use-package evil-surround
+        :ensure t
+        :init
+        (global-evil-surround-mode 1))
+      (use-package evil-tutor
+        :ensure t)
+
+      (use-package evil-mc
+        :ensure t
+        :config
+        (global-evil-mc-mode 1)
+        (evil-define-key 'visual evil-mc-key-map
+          "A" #'evil-mc-make-cursor-in-visual-selection-end
+          "I" #'evil-mc-make-cursor-in-visual-selection-beg))
+
+      (use-package evil-numbers
+        :ensure t
+        :bind (:map evil-normal-state-map
+        ("C-c +" . evil-numbers/inc-at-pt)
+        ("C-c -" . evil-numbers/dec-at-pt)
+        :map evil-visual-state-map
+        ("C-c +" . evil-numbers/inc-at-pt)
+        ("C-c -" . evil-numbers/dec-at-pt)))
+      (use-package evil-nerd-commenter
+        :ensure t
+        :init
+        (evilnc-default-hotkeys))
+      (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
+      (define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
+    )
     ;; set up the dashboard for welcome
     (use-package dashboard
       :ensure t
       :bind (("<M-f8>" . switch-to-dashboard))
       :init
+      (add-hook 'dashboard-mode-hook 'disable-global-nlinum-mode)
       (setq dashboard-startup-banner 'logo)
       (setq dashboard-set-heading-icons t)
       (setq dashboard-set-navigator t)
-      (setq dashboard-items '((recents . 15)
-            (bookmarks . 10)
+      (setq dashboard-items '((recents . 25)
+            (bookmarks . 20)
             (projects . 25)
             (agenda . 15)
             (registers . 5)))
       (dashboard-setup-startup-hook))
+    ;; Helm
+    (use-package helm
+      :ensure t
+      :bind ( ("M-x" . helm-M-x)
+              ("C-x r b" . helm-filtered-bookmarks)
+              ("C-x C-f" . helm-find-files)
+              ("C-x b" . helm-mini)
+              ("C-x C-b" . helm-mini)
+              ("C-c i" . helm-imenu))
+      :init
+      (helm-mode 1)
+      :config
+      (use-package helm-gtags
+        :ensure t
+        :hook ( (dired-mode . helm-gtags-mode)
+                (eshell-mode . helm-gtags-mode)
+                (c-mode . helm-gtags-mode)
+                (c++-mode . helm-gtags-mode)
+                (asm-mode . helm-gtags-mode))
+        :config
+        (setq
+          helm-gtags-ignore-case t
+          helm-gtags-auto-update t
+          helm-gtags-use-input-at-cursor t
+          helm-gtags-pulse-at-cursor t
+          helm-gtags-prefix-key "\C-cg"
+          helm-gtags-suggested-key-mapping t
+        )
+        (evil-define-key 'normal helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+        (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+        (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+        (define-key helm-gtags-mode-map (kbd "C-c r") 'helm-gtags-resume)
+        ;(define-key helm-gtags-mode-map (kbd "C-=") 'helm-gtags-dwim)
+        (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+        (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+        (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+        (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+        (define-key helm-gtags-mode-map (kbd "C-c g h") 'helm-gtags-show-stack)
+        (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-previous-history)
+        (define-key helm-gtags-mode-map (kbd "M-<") 'helm-gtags-next-history)
+        ;(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+        )
+      (use-package helm-ag
+        :ensure t
+        :bind ("C-M-g" . helm-ag)
+        )
+      (use-package helm-swoop
+        :ensure t)
+      )
 
     ;; theme
+    (use-package powerline
+      :ensure t)
     (use-package solarized-theme
       :ensure t
       :init
@@ -81,6 +164,7 @@
       (setq sml/theme 'dark)
       (sml/setup))
 
+    ;; Project/Directory
     (use-package projectile
       :ensure t
       :bind ( ("C-x P" . projectile-switch-open-project)
@@ -108,27 +192,29 @@
       (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
       (setq neo-smart-open t)
       (setq projectile-switch-project-action 'neotree-projectile-action))
-
-    (use-package helm-ag
+    ;; Program
+    (use-package magit
       :ensure t
-      :bind ("C-M-g" . helm-ag)
+      :bind ( ("C-x g" . magit-status)
+              ("C-x M-g" . magit-dispatch-popup))
       )
+    ; Python mode add-on
+    (use-package anaconda-mode
+      :ensure t
+      :hook python-mode
+      :init
+      (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+
+    (use-package cmake-mode
+      :ensure t
+      :defer t)
 
     (use-package exec-path-from-shell
       :ensure t
       :init
       (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 
-    (use-package cmake-mode
-      :ensure t
-      :defer t)
-
-    (use-package elpy
-      :ensure t
-      :defer t
-      :init
-      (advice-add 'python-mode :before 'elpy-enable))
-
+    ;; Auto-complete
     ; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
     (use-package company
       :ensure t
@@ -162,6 +248,10 @@
         :ensure t
         :config
         (add-to-list 'company-backends 'company-c-headers))
+      (use-package company-anaconda
+        :ensure t
+        :config
+        (add-to-list 'company-backends 'company-anaconda))
       (use-package company-statistics
         :ensure t
         :config
@@ -203,9 +293,6 @@
     (use-package yasnippet-snippets
       :ensure t
       :after yasnippet)
-
-    (use-package flx-ido
-      :ensure t)
 
     (use-package p4
       :ensure t
@@ -277,29 +364,6 @@
       :config
       (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
 
-    (use-package helm-swoop
-      :ensure t)
-
-    (use-package evil-mc
-      :ensure t
-      :config
-      (global-evil-mc-mode 1)
-      (evil-define-key 'visual evil-mc-key-map
-        "A" #'evil-mc-make-cursor-in-visual-selection-end
-        "I" #'evil-mc-make-cursor-in-visual-selection-beg))
-
-    (use-package evil-numbers
-      :ensure t
-      :bind (:map evil-normal-state-map
-      ("C-c +" . evil-numbers/inc-at-pt)
-      ("C-c -" . evil-numbers/dec-at-pt)
-      :map evil-visual-state-map
-      ("C-c +" . evil-numbers/inc-at-pt)
-      ("C-c -" . evil-numbers/dec-at-pt)))
-    (use-package evil-nerd-commenter
-      :ensure t
-      :init
-      (evilnc-default-hotkeys))
     (use-package editorconfig
       :ensure t
       :config
@@ -314,8 +378,15 @@
     (use-package avy
       :ensure t)
 
+    (use-package jade-mode
+      :ensure t)
+
+    (use-package markdown-mode
+      :ensure t)
+
+    (use-package yaml-mode
+      :ensure t)
     )
   )
-
 
 (provide 'ac-packages)
