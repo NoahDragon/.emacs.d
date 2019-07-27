@@ -293,7 +293,11 @@
     ;;   :hook ( (c++-mode . irony-mode)
     ;;           (c-mode . irony-mode)
     ;;           (objc-mode-hook . irony-mode)
-    ;;           (irony-mode . irony-cdb-autosetup-compile-options)))
+    ;;           (irony-mode . irony-cdb-autosetup-compile-options))
+    ;;   :init
+    ;;   (setq w32-pipe-read-delay 0)
+    ;;   (setq irony-server-w32-pipe-buffer-size (* 64 1024))
+    ;;)
 
     (use-package validate
       :ensure t)
