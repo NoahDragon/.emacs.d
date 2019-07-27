@@ -271,10 +271,10 @@
         :ensure t
         :config
         (add-hook 'after-init-hook 'company-statistics-mode))
-      ;; (use-package company-irony
-      ;;   :ensure t
-      ;;   :config
-      ;;   (add-to-list 'company-backends 'company-irony))
+      (use-package company-irony
+        :ensure t
+        :config
+        (add-to-list 'company-backends 'company-irony))
       )
 
     ; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
@@ -288,16 +288,16 @@
       :bind (:map company-active-map
             ("C-c ?" . company-quickhelp-manual-begin)))
 
-    ;; (use-package irony
-    ;;   :ensure t
-    ;;   :hook ( (c++-mode . irony-mode)
-    ;;           (c-mode . irony-mode)
-    ;;           (objc-mode-hook . irony-mode)
-    ;;           (irony-mode . irony-cdb-autosetup-compile-options))
-    ;;   :init
-    ;;   (setq w32-pipe-read-delay 0)
-    ;;   (setq irony-server-w32-pipe-buffer-size (* 64 1024))
-    ;;)
+    (use-package irony
+      :ensure t
+      :hook ( (c++-mode . irony-mode)
+              (c-mode . irony-mode)
+              (objc-mode-hook . irony-mode)
+              (irony-mode . irony-cdb-autosetup-compile-options))
+      :init
+      (setq w32-pipe-read-delay 0)
+      (setq irony-server-w32-pipe-buffer-size (* 64 1024))
+    )
 
     (use-package validate
       :ensure t)
