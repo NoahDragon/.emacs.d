@@ -43,7 +43,13 @@
     (use-package all-the-icons
       :ensure t)
     (use-package nlinum
-      :ensure t)
+      :ensure t
+      :config
+      (use-package nlinum-hl
+        :ensure t
+        :config
+        (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
+        (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows)))
     ;; Evil
     (use-package evil
       :ensure t
