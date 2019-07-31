@@ -11,7 +11,7 @@
 (when (< emacs-major-version 24)
   ;; for important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(when (eq emacs-version 26.2)
+(when (eq emacs-version "26.2")
   ;; fix a bug that ELPA bad request
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
