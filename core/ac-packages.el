@@ -66,13 +66,16 @@
       (use-package evil-tutor
         :ensure t)
 
-      (use-package evil-mc
-        :ensure t
-        :config
-        (global-evil-mc-mode 1)
-        (evil-define-key 'visual evil-mc-key-map
-          "A" #'evil-mc-make-cursor-in-visual-selection-end
-          "I" #'evil-mc-make-cursor-in-visual-selection-beg))
+      ;; Basedon Xah's comments, no need multiple-cursors
+      ;; Ref: http://ergoemacs.org/misc/emacs_multiple-cursors-mode.html
+      ;; My experience is also negative using multiple-cusors.
+      ;; (use-package evil-mc
+      ;;   :ensure t
+      ;;   :config
+      ;;   (global-evil-mc-mode 1)
+      ;;   (evil-define-key 'visual evil-mc-key-map
+      ;;     "A" #'evil-mc-make-cursor-in-visual-selection-end
+      ;;     "I" #'evil-mc-make-cursor-in-visual-selection-beg))
 
       (use-package evil-numbers
         :ensure t
@@ -82,6 +85,7 @@
         :map evil-visual-state-map
         ("C-c +" . evil-numbers/inc-at-pt)
         ("C-c -" . evil-numbers/dec-at-pt)))
+
       (use-package evil-nerd-commenter
         :ensure t
         :init
@@ -226,8 +230,8 @@
       :ensure t
       :init
       (add-hook 'after-init-hook 'global-company-mode)
-      (setq company-idle-delay 0
-            company-echo-delay 0
+      (setq company-idle-delay 0.1
+            company-echo-delay 0.1
             company-minimum-prefix-length 2
             company-show-numbers t
             company-tooltip-limit 20
@@ -423,6 +427,7 @@
 
     (use-package yaml-mode
       :ensure t)
+
     )
   )
 
