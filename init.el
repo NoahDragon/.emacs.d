@@ -11,6 +11,9 @@
 (when (< emacs-major-version 24)
   ;; for important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(when (eq emacs-version 26.2)
+  ;; fix a bug that ELPA bad request
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
@@ -77,9 +80,9 @@
 (if (display-graphic-p)
   (progn
     ;; Display lambda as λ
-    (global-prettify-symbols-mode 1)
+    (when (fboundp global-prettify-symbols-mode) (global-prettify-symbols-mode 1))
     ;; Show line number
-    (global-nlinum-mode t)
+    (when (fboundp 'global-nlinum-mode) (global-nlinum-mode t))
     )
   )
 
