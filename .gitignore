@@ -79,3 +79,4 @@ network-security.data
 vim.exe.stackdump
 /transient
 /anaconda-mode
+company-statistics-cache.el
