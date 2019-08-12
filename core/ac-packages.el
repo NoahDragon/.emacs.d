@@ -428,6 +428,8 @@
     (use-package yaml-mode
       :ensure t)
 
+    (use-package powershell
+      :ensure t)
     )
   )
 

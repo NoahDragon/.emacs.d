@@ -18,6 +18,7 @@
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 
+
 ;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
@@ -177,6 +178,19 @@
       :ensure t)
   )
 )
+;; (if (eq system-type 'windows-nt)
+;;   (progn
+;;     (let* (
+;;            (home (getenv "HOME"))
+;;            (mypath (concat
+;;                       (concat home "\\scoop\\shims")
+;;                       (concat home "empty")))
+;;             )
+;;       (setenv "PATH" (concat (mapconcat 'identity mypath ";") (getenv "PATH")))
+;;       (setq exec-path (append mypath (list "." exec-directory)))
+;;       )
+;;     )
+;;   )
 
 ;; Custom Variables
 (custom-set-variables

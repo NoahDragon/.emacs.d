@@ -1,3 +1,10 @@
+-*- mode: markdown -*-
+
 Need Manually add the Path to Windows environment.
 
-Tried to use "setx" in batch, it could not handle the # of char exceeding 1024, and will truncate.
+~~Tried to use "setx" in batch, it could not handle the # of char exceeding 1024, and will truncate.~~
+Powershell has command to set the environment variables.
+
+Now, the third parties are managed by scoop.sh, a command line installer for windows.
+
+Please use the init.ps1 script to set up the requirments.
