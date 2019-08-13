@@ -5,9 +5,14 @@ if (!(Test-Path 'env:HOME')){
     [System.Environment]::SetEnvironmentVariable('HOME',$env:USERPROFILE,[System.EnvironmentVariableTarget]::User)
 }
 
-if (!(Test-Path 'env:GTAGSLABLE')){
+if (!(Test-Path env:GTAGSLABLE)){
     echo "Adding GTAGSLABLE environment variable..."
     [System.Environment]::SetEnvironmentVariable('GTAGSLABLE','new-ctags',[System.EnvironmentVariableTarget]::User)
+}
+
+if (!(Test-Path env:GTAGSFORCECPP)){
+    echo "Adding GTAGSFORCECPP environment variable..."
+    [System.Environment]::SetEnvironmentVariable('GTAGSFORCECPP',1,[System.EnvironmentVariableTarget]::User)
 }
 
 if (!(Get-Command 'scoop' -errorAction SilentlyContinue)){
@@ -17,6 +22,6 @@ if (!(Get-Command 'scoop' -errorAction SilentlyContinue)){
 }
 
 scoop bucket add extras
-scoop install global ag ripgrep universal-ctags
+scoop install global ag ripgrep universal-ctags aria2
 
 pause
