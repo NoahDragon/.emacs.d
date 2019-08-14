@@ -22,6 +22,6 @@ if (!(Get-Command 'scoop' -errorAction SilentlyContinue)){
 }
 
 scoop bucket add extras
-scoop install global ag ripgrep universal-ctags aria2
+scoop install global ag ripgrep universal-ctags aria2 vcredist2015
 
 pause
