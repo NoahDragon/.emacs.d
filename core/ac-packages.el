@@ -422,9 +422,6 @@
     (use-package jade-mode
       :ensure t)
 
-    (use-package markdown-mode
-      :ensure t)
-
     (use-package yaml-mode
       :ensure t)
 
@@ -439,6 +436,11 @@
               ("\\.markdown\\'" . markdown-mode))
       :init
       (setq markdown-command "multimarkdown")
+      (if (eq system-type 'windows-nt)
+        (progn
+          (setq markdown-command (concat (getenv "HOME") "\\scoop\\shims\\pandoc.exe"))
+          )
+        )
       )
   )
 
