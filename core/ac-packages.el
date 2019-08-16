@@ -422,15 +422,26 @@
     (use-package jade-mode
       :ensure t)
 
-    (use-package markdown-mode
-      :ensure t)
-
     (use-package yaml-mode
       :ensure t)
 
     (use-package powershell
       :ensure t)
     )
+
+    (use-package markdown-mode
+      :ensure t
+      :mode ( ("README\\.md\\'" . gfm-mode)
+              ("\\.md\\'" . markdown-mode)
+              ("\\.markdown\\'" . markdown-mode))
+      :init
+      (setq markdown-command "multimarkdown")
+      (if (eq system-type 'windows-nt)
+        (progn
+          (setq markdown-command (concat (getenv "HOME") "\\scoop\\shims\\pandoc.exe"))
+          )
+        )
+      )
   )
 
 (provide 'ac-packages)
