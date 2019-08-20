@@ -35,6 +35,7 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
+(setq inhibit-compacting-font-caches t)
 
 ;; Set Evil Mode
 ;; (evil-set-initial-state 'dashboard-mode 'emacs)
@@ -81,7 +82,7 @@
 (if (display-graphic-p)
   (progn
     ;; Display lambda as λ
-    (when (fboundp global-prettify-symbols-mode) (global-prettify-symbols-mode 1))
+    (when (fboundp 'global-prettify-symbols-mode) (global-prettify-symbols-mode 1))
     ;; Show line number
     (when (fboundp 'global-nlinum-mode) (global-nlinum-mode t))
     )
