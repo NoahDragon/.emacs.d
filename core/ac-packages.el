@@ -442,6 +442,11 @@
           )
         )
       )
+    (use-package ztree
+      :ensure t
+      :config
+      (evil-set-initial-state 'dashboard-mode 'emacs)
+      )
   )
 
 (provide 'ac-packages)

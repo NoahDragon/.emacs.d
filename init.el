@@ -96,6 +96,7 @@
   ("C-S-<tab>" . prev-user-buffer)
   ("C-M-<tab>" . next-buffer)
   ("C-M-S-<tab>" . previous-buffer)
+  ("C-<f4>" . kill-buffer-and-window)
   )
 ; Misc
 (bind-keys
