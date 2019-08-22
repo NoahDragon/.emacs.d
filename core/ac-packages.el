@@ -213,7 +213,9 @@
       :ensure t
       :hook python-mode
       :init
-      (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+      (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+      (setq anaconda-mode-localhost-address "localhost")
+      )
 
     (use-package cmake-mode
       :ensure t
