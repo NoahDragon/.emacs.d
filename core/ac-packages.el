@@ -44,6 +44,7 @@
       :ensure t)
     (use-package nlinum
       :ensure t
+      :defer t
       :config
       (use-package nlinum-hl
         :ensure t
@@ -179,7 +180,7 @@
       :ensure t
       :bind ( ("C-x P" . projectile-switch-open-project)
               ("C-x p" . projectile-switch-project)
-        ("<M-f3>" . projectile-ag))
+              ("<M-f3>" . projectile-ag))
       :config
       (projectile-global-mode)
       (setq projectile-enable-caching t)
@@ -205,12 +206,14 @@
     ;; Program
     (use-package magit
       :ensure t
+      :defer t
       :bind ( ("C-x g" . magit-status)
               ("C-x M-g" . magit-dispatch-popup))
       )
     ; Python mode add-on
     (use-package anaconda-mode
       :ensure t
+      :defer t
       :hook python-mode
       :init
       (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
@@ -323,6 +326,7 @@
 
     (use-package yasnippet
       :ensure t
+      :defer t
       :init
       (with-eval-after-load 'yasnippet
         (validate-setq yas-snippet-dirs '(yasnippet-snippets-dir)))
@@ -335,15 +339,18 @@
 
     (use-package yasnippet-snippets
       :ensure t
+      :defer t
       :after yasnippet)
 
     (use-package p4
       :ensure t
+      :defer t
       :config
       (p4-set-p4-config "p4config"))
 
     (use-package dired-hacks-utils
       :ensure t
+      :defer t
       :config
       (use-package dired-filter
         :ensure t)
@@ -362,26 +369,26 @@
         :ensure t
         :config
         (progn
-      (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
-      (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-      (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-      (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-      (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-      (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-      (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
-      (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-      (dired-rainbow-define log "#c17d11" ("log"))
-      (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
-      (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-      (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-      (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-      (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-      (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-      (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-      (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-      (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-      (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-      (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+          (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+          (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+          (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+          (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+          (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+          (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+          (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+          (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+          (dired-rainbow-define log "#c17d11" ("log"))
+          (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+          (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+          (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+          (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+          (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+          (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+          (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+          (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+          (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+          (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+          (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
         ))
       (use-package dired-ranger
         :ensure t)
@@ -397,6 +404,7 @@
 
     (use-package peep-dired
       :ensure t
+      :defer t
       :init
       (evil-define-key 'normal dired-mode-map (kbd "<SPC>") 'peep-dired)
       (evil-define-key 'normal peep-dired-mode-map (kbd "-") 'peep-dired-scroll-page-down)
@@ -419,16 +427,23 @@
       (keyfreq-autosave-mode 1))
 
     (use-package avy
-      :ensure t)
+      :ensure t
+      :defer t
+      )
 
     (use-package jade-mode
-      :ensure t)
+      :ensure t
+      :defer t
+      )
 
     (use-package yaml-mode
-      :ensure t)
+      :ensure t
+      :defer t
+      )
 
     (use-package powershell
-      :ensure t)
+      :ensure t
+      :defer t
     )
 
     (use-package markdown-mode
@@ -446,9 +461,11 @@
       )
     (use-package ztree
       :ensure t
+      :defer t
       :config
       (evil-set-initial-state 'dashboard-mode 'emacs)
       )
+    )
   )
 
 (provide 'ac-packages)
