@@ -79,6 +79,8 @@
 (when (fboundp 'toggle-truncate-lines) (toggle-truncate-lines -1))
 ; Display y-n instead of yes-no
 (defalias 'yes-or-no-p 'y-or-n-p)
+; Kill process without confirmation
+(setq confirm-kill-processes nil)
 (if (display-graphic-p)
   (progn
     ;; Display lambda as λ
