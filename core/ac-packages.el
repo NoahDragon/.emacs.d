@@ -247,7 +247,7 @@
       :init
       (add-hook 'after-init-hook 'global-company-mode)
       (setq company-idle-delay 0
-            ;; company-echo-delay 0.1
+            company-echo-delay 0
             company-minimum-prefix-length 1
             company-show-numbers t
             company-tooltip-limit 20
