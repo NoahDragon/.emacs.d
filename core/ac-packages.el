@@ -40,32 +40,47 @@
 
 (defun ac-load-packages ()
   (progn
-    (use-package all-the-icons
-      :ensure t)
-    (use-package nlinum
-      :ensure t
-      :defer t
+    (setq use-package-always-ensure t)
+
+    (use-package auto-compile ; Need to keep this at top to enable auto-compile as early as possible
+      :init
+      (auto-compile-on-load-mode)
+      (auto-compile-on-save-mode)
       :config
-      (use-package nlinum-hl
-        :ensure t
-        :config
-        (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
-        (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows)))
+      (setq auto-compile-display-buffer nil)
+      (setq auto-compile-mode-line-counter t)
+      )
+
+    (use-package all-the-icons)
+
+    (use-package display-line-numbers
+      :config
+      (setq display-line-numbers-type 'relative)
+      (global-display-line-numbers-mode 1))
+
+    (use-package eldoc
+      :delight eldoc-mode)
+
+    ;; (use-package nlinum
+    ;;   :ensure t
+    ;;   :defer t
+    ;;   :config
+    ;;   (use-package nlinum-hl
+    ;;     :ensure t
+    ;;     :config
+    ;;     (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
+    ;;     (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows)))
     ;; Evil
     (use-package evil
-      :ensure t
       :bind (( "C-c SPC" . evil-avy-goto-word-1))
       :init
       (evil-mode 1)
       :config
-      (use-package evil-indent-textobject
-        :ensure t)
+      (use-package evil-indent-textobject)
       (use-package evil-surround
-        :ensure t
         :init
         (global-evil-surround-mode 1))
-      (use-package evil-tutor
-        :ensure t)
+      (use-package evil-tutor)
 
       ;; Basedon Xah's comments, no need multiple-cursors
       ;; Ref: http://ergoemacs.org/misc/emacs_multiple-cursors-mode.html
@@ -79,7 +94,6 @@
       ;;     "I" #'evil-mc-make-cursor-in-visual-selection-beg))
 
       (use-package evil-numbers
-        :ensure t
         :bind (:map evil-normal-state-map
         ("C-c +" . evil-numbers/inc-at-pt)
         ("C-c -" . evil-numbers/dec-at-pt)
@@ -88,7 +102,6 @@
         ("C-c -" . evil-numbers/dec-at-pt)))
 
       (use-package evil-nerd-commenter
-        :ensure t
         :init
         (evilnc-default-hotkeys))
       (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
@@ -96,10 +109,10 @@
     )
     ;; set up the dashboard for welcome
     (use-package dashboard
-      :ensure t
       :bind (("<M-f8>" . switch-to-dashboard))
       :init
-      (add-hook 'dashboard-mode-hook 'disable-global-nlinum-mode)
+      ;; (add-hook 'dashboard-mode-hook 'disable-global-nlinum-mode)
+      (add-hook 'dashboard-mode-hook 'disable-global-display-line-numbers-mode)
       (setq dashboard-startup-banner 'logo)
       (setq dashboard-set-heading-icons t)
       (setq dashboard-set-navigator t)
@@ -111,7 +124,6 @@
       (dashboard-setup-startup-hook))
     ;; Helm
     (use-package helm
-      :ensure t
       :bind ( ("M-x" . helm-M-x)
               ("C-x r b" . helm-filtered-bookmarks)
               ("C-x C-f" . helm-find-files)
@@ -122,7 +134,6 @@
       (helm-mode 1)
       :config
       (use-package helm-gtags
-        :ensure t
         :hook ( (dired-mode . helm-gtags-mode)
                 (eshell-mode . helm-gtags-mode)
                 (c-mode . helm-gtags-mode)
@@ -152,32 +163,25 @@
         ;(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
         )
       (use-package helm-ag
-        :ensure t
         :bind ("C-M-g" . helm-ag)
         )
-      (use-package helm-swoop
-        :ensure t)
+      (use-package helm-swoop)
       )
 
     ;; theme
-    (use-package powerline
-      :ensure t)
+    (use-package powerline)
     (use-package solarized-theme
-      :ensure t
       :init
       (load-theme 'solarized-dark t))
     (use-package smart-mode-line
-      :ensure t
       :config
-      (use-package smart-mode-line-powerline-theme
-        :ensure t)
+      (use-package smart-mode-line-powerline-theme)
       (setq custom-safe-themes t)
       (setq sml/theme 'dark)
       (sml/setup))
 
     ;; Project/Directory
     (use-package projectile
-      :ensure t
       :bind ( ("C-x P" . projectile-switch-open-project)
               ("C-x p" . projectile-switch-project)
               ("<M-f3>" . projectile-ag))
@@ -185,11 +189,9 @@
       (projectile-global-mode)
       (setq projectile-enable-caching t)
       (setq projectile-indexing-method 'hybrid)
-      (use-package ag
-        :ensure t))
+      (use-package ag))
 
     (use-package neotree
-      :ensure t
       :bind ("<f8>" . neotree-toggle)
       :init
       (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
@@ -205,15 +207,26 @@
       (setq projectile-switch-project-action 'neotree-projectile-action))
     ;; Program
     (use-package magit
-      :ensure t
       :defer t
       :bind ( ("C-x g" . magit-status)
               ("C-x M-g" . magit-dispatch-popup))
       )
     ; Python mode add-on
+    (use-package python
+      :mode ("\\.py\\'" . python-mode)
+      :interpreter (("python"  . python-mode)
+                    ("python2" . python-mode)
+                    ("python3" . python-mode))
+      :hook (python-mode . subword-mode)
+      )
+    (use-package python-switch-quotes
+      :after python
+      :bind ( :map python-mode-map
+              ("C-c '" . python-switch-quotes))
+      )
     (use-package anaconda-mode
-      :ensure t
       :defer t
+      :after python-mode
       :hook python-mode
       :init
       (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
@@ -221,31 +234,29 @@
       )
 
     (use-package cmake-mode
-      :ensure t
       :defer t)
 
     (use-package exec-path-from-shell
-      :ensure t
       :init
       (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 
     ;; Auto-complete
     ; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
     (use-package company
-      :ensure t
+      :delight company-mode
       :init
       (add-hook 'after-init-hook 'global-company-mode)
-      (setq company-idle-delay 0.1
-            company-echo-delay 0.1
-            company-minimum-prefix-length 2
+      (setq company-idle-delay 0
+            ;; company-echo-delay 0.1
+            company-minimum-prefix-length 1
             company-show-numbers t
             company-tooltip-limit 20
             company-dabbrev-downcase nil
             company-dabbrev-ignore-case nil
             company-dabbrev-code-other-buffers t
-            company-require-match 'never
-            company-global-modes
-            (global-company-mode +1))
+            company-require-match 'never)
+      (company-tng-configure-default)
+      (global-company-mode)
       :bind ("C-;" . company-complete)
       :config
       (define-key company-active-map (kbd "M-n") nil)
@@ -258,8 +269,6 @@
       (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
       ;; Company Backends
       (use-package company-web
-        :ensure t
-        :defer t
         :bind (("C-c w" . company-web-html))
         :config
         (add-to-list 'company-backends 'company-web-html))
@@ -272,39 +281,39 @@
         :config
         (add-to-list 'company-backends 'company-gtags))
       (use-package company-yasnippet
+        :defer t
         :config
         (add-to-list 'company-backends 'company-yasnippet))
       (use-package company-c-headers
-        :ensure t
+        :defer t
         :config
         (add-to-list 'company-backends 'company-c-headers))
       (use-package company-anaconda
-        :ensure t
+        :defer t
+        :after anaconda-mode
         :config
         (add-to-list 'company-backends 'company-anaconda))
       (use-package company-statistics
-        :ensure t
         :config
         (add-hook 'after-init-hook 'company-statistics-mode))
       (use-package company-irony
-        :ensure t
+        :defer t
+        :after irony-mode
         :config
         (add-to-list 'company-backends 'company-irony))
       )
 
     ; Ref: https://github.com/jwiegley/dot-emacs/blob/master/init.el
     (use-package company-math
-      :ensure t
       :defer t)
 
     (use-package company-quickhelp
-      :ensure t
       :after company
       :bind (:map company-active-map
             ("C-c ?" . company-quickhelp-manual-begin)))
 
     (use-package irony
-      :ensure t
+      :defer t
       :hook ( (c++-mode . irony-mode)
               (c-mode . irony-mode)
               (objc-mode-hook . irony-mode)
@@ -314,18 +323,16 @@
       (setq irony-server-w32-pipe-buffer-size (* 64 1024))
     )
 
-    (use-package validate
-      :ensure t)
+    (use-package validate)
 
     (use-package smartparens
-      :ensure t
+      :defer t
       :after validate
       :config
       (show-smartparens-global-mode 1)
       (smartparens-global-mode 1))
 
     (use-package yasnippet
-      :ensure t
       :defer t
       :init
       (with-eval-after-load 'yasnippet
@@ -338,35 +345,27 @@
       (yas-global-mode))
 
     (use-package yasnippet-snippets
-      :ensure t
       :defer t
       :after yasnippet)
 
     (use-package p4
-      :ensure t
       :defer t
       :config
       (p4-set-p4-config "p4config"))
 
     (use-package dired-hacks-utils
-      :ensure t
       :defer t
       :config
-      (use-package dired-filter
-        :ensure t)
+      (use-package dired-filter)
       (use-package dired-subtree
-        :ensure t
         :init
         (evil-define-key 'normal dired-mode-map (kbd "TAB") 'dired-subtree-toggle)
         (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-subtree-up)
         (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-subtree-down))
-      (use-package dired-open
-        :ensure t)
+      (use-package dired-open)
       (use-package dired-avfs
-        :ensure t
         :if (executable-find "mountavfs"))
       (use-package dired-rainbow
-        :ensure t
         :config
         (progn
           (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
@@ -390,21 +389,16 @@
           (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
           (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
         ))
-      (use-package dired-ranger
-        :ensure t)
-      (use-package dired-narrow
-        :ensure t)
+      (use-package dired-ranger)
+      (use-package dired-narrow)
       ;; (use-package dired-list
         ;; :ensure t)
       (use-package dired-collapse
-        :ensure t
         :init
         (add-hook 'dired-mode-hook (lambda () (dired-collapse-mode 1))))
     )
 
     (use-package peep-dired
-      :ensure t
-      :defer t
       :init
       (evil-define-key 'normal dired-mode-map (kbd "<SPC>") 'peep-dired)
       (evil-define-key 'normal peep-dired-mode-map (kbd "-") 'peep-dired-scroll-page-down)
@@ -416,38 +410,31 @@
       (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
 
     (use-package editorconfig
-      :ensure t
+      :delight editorconfig-mode
       :config
       (editorconfig-mode 1))
 
     (use-package keyfreq
-      :ensure t
       :config
       (keyfreq-mode 1)
       (keyfreq-autosave-mode 1))
 
     (use-package avy
-      :ensure t
-      :defer t
-      )
+      :defer t)
 
     (use-package jade-mode
-      :ensure t
-      :defer t
-      )
+      :defer t)
 
     (use-package yaml-mode
-      :ensure t
       :defer t
+      :mode "\\.yml\\'"
       )
 
     (use-package powershell
-      :ensure t
-      :defer t
-    )
+      :defer t)
 
     (use-package markdown-mode
-      :ensure t
+      :defer t
       :mode ( ("README\\.md\\'" . gfm-mode)
               ("\\.md\\'" . markdown-mode)
               ("\\.markdown\\'" . markdown-mode))
@@ -459,11 +446,44 @@
           )
         )
       )
+
     (use-package ztree
-      :ensure t
-      :defer t
       :config
       (evil-set-initial-state 'dashboard-mode 'emacs)
+      )
+
+    (use-package flycheck
+      :defer t
+      :delight flycheck-mode
+      :config
+      (setq-default flycheck-disabled-checkers '( emacs-lisp-checkdoc
+                                                  python-flake8
+                                                  json-python-json
+                                                  ))
+      (global-flycheck-mode)
+      )
+
+    (use-package hl-todo
+      :config
+      (global-hl-todo-mode))
+
+    (use-package which-key
+      :delight which-key-mode
+      :config
+      (setq which-key-sort-order #'which-key-prefix-then-key-order
+            which-key-sort-uppercase-first nil
+            which-key-add-column-padding 1
+            which-key-max-display-columns nil
+            which-key-min-display-lines 6
+            which-key-side-window-slot -10)
+      (which-key-mode 1)
+      )
+
+    (use-package helpful
+      :bind ( ("C-h f" . helpful-callable)
+              ("C-h v" . helpful-variable)
+              ("C-h k" . helpful-key)
+              ("C-h ." . helpful-at-point))
       )
     )
   )

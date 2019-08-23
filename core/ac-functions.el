@@ -21,6 +21,12 @@
     (lambda () (nlinum-mode 0))
     :append :local))
 
+(defun disable-global-display-line-numbers-mode()
+  "Disable global-display-line-numbers-mode."
+  (add-hook 'after-change-major-mode-hook
+    (lambda () (display-line-numbers-mode 0))
+    :append :local))
+
 ;; Buffer operations
 ;; Ref: https://www.emacswiki.org/emacs/KillingBuffers
 (defun kill-other-buffers ()
@@ -197,3 +203,4 @@
   (aset buffer-display-table ?\^M []))
 
 (provide 'ac-functions)
+;;; ac-functions.el ends here

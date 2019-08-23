@@ -3,6 +3,13 @@
 ;; Get rid of the .emacs to be more version control friendly.
 ;; All settings should goes here, or sub files.
 ;;
+
+;; Global constants
+(defconst IS-WIN   (eq system-type 'windows-nt))
+(defconst IS-MAC   (eq system-type 'darwin))
+(defconst IS-LINUX (eq system-type 'gnu/linux))
+
+;; Configuration
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
 		(not (gnutls-available-p))))
@@ -15,14 +22,15 @@
   ;; fix a bug that ELPA bad request
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+(setq load-prefer-newer t)
 (package-initialize)
-(unless package-archive-contents (package-refresh-contents))
-
+;; (unless package-archive-contents (package-refresh-contents))
 
 ;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
 (require 'ac-packages)
 (require 'ac-functions)
+(ac-load-packages)
 ;; extra folder means something could be removed later on
 (setq load-path (cons "~/.emacs.d/extra"   load-path))
 (require 'highlight-sexp)
@@ -30,18 +38,19 @@
 
 ;; encoding system
 ;; character encodings default to utf-8.
+(when (fboundp 'set-charset-priority) (set-charset-priority 'unicode))
 (prefer-coding-system 'utf-8)
 (set-language-environment 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(setq-default buffer-file-coding-system 'utf-8)
 (setq inhibit-compacting-font-caches t)
 
 ;; Set Evil Mode
 ;; (evil-set-initial-state 'dashboard-mode 'emacs)
 ;; (evil-define-key 'normal dashboard-mode-map (kbd "M-.") 'helm-gtags-dwim)
-
-(ac-load-packages)
 
 ;; Change the comint mode up/down key behavior more like terminal
 (require 'shell)
@@ -71,22 +80,32 @@
 (setq inhibit-startup-screen t)
 ; Maximize the windows on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-; Disable menubar, toolbar, scrollbar
+; GUI Tweats
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'toggle-scroll-bar) (toggle-scroll-bar -1))
+(when (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
+; Make things a little more responsive in general
+(setq echo-keystrokes 0.1
+      tooltip-delay 0
+      tooltip-short-delay 0)
 ; Disable line wrapping
 (when (fboundp 'toggle-truncate-lines) (toggle-truncate-lines -1))
 ; Display y-n instead of yes-no
 (defalias 'yes-or-no-p 'y-or-n-p)
 ; Kill process without confirmation
 (setq confirm-kill-processes nil)
+; Highlight the current line to make the cursor easier to see
+(global-hl-line-mode)
+; Ensure the help windows is elected when it is open.
+(setq help-window-select t)
+
 (if (display-graphic-p)
   (progn
     ;; Display lambda as λ
     (when (fboundp 'global-prettify-symbols-mode) (global-prettify-symbols-mode 1))
     ;; Show line number
-    (when (fboundp 'global-nlinum-mode) (global-nlinum-mode t))
+    ;; (when (fboundp 'global-nlium-mode) (global-nlinum-mode t))
     )
   )
 
@@ -148,7 +167,7 @@
         ".obj" ".map"))
 
 ;; System Specific
-(if (eq system-type 'darwin)
+(if IS-MAC
     (progn
     ;; Fix the logo display issue on Mac
     ;; https://emacs.stackexchange.com/questions/20976/x11-why-is-the-emacs-logo-image-missing-on-the-welcome-screen
@@ -182,7 +201,7 @@
       :ensure t)
   )
 )
-;; (if (eq system-type 'windows-nt)
+;; (if IS-WIN
 ;;   (progn
 ;;     (let* (
 ;;            (home (getenv "HOME"))
@@ -203,14 +222,18 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+    (quote
+      ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+ '(flycheck-checker-error-threshold nil)
  '(package-selected-packages
-   (quote
-    (company-anaconda evil-nerd-commenter evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (quote
+      (company-anaconda evil-nerd-commenter evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(provide 'init)
+;;; init.el ends here
