@@ -40,8 +40,6 @@
 
 (defun ac-load-packages ()
   (progn
-    (setq use-package-always-ensure t)
-
     (use-package auto-compile ; Need to keep this at top to enable auto-compile as early as possible
       :init
       (auto-compile-on-load-mode)
@@ -194,6 +192,7 @@
     (use-package neotree
       :bind ("<f8>" . neotree-toggle)
       :init
+      (add-hook 'neotree-mode-hook 'disable-global-display-line-numbers-mode)
       (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
       (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
       (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
@@ -238,7 +237,7 @@
 
     (use-package exec-path-from-shell
       :init
-      (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
+      (when IS-MAC (exec-path-from-shell-initialize)))
 
     ;; Auto-complete
     ; Ref: https://github.com/kirang89/.emacs.d/blob/master/kiran/init-company.el
