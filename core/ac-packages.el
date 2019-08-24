@@ -40,6 +40,7 @@
 
 (defun ac-load-packages ()
   (progn
+
     (use-package auto-compile ; Need to keep this at top to enable auto-compile as early as possible
       :init
       (auto-compile-on-load-mode)
@@ -69,6 +70,7 @@
     ;;     (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
     ;;     (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows)))
     ;; Evil
+    (setq evil-want-keybinding nil)
     (use-package evil
       :bind (( "C-c SPC" . evil-avy-goto-word-1))
       :init
@@ -78,6 +80,7 @@
       (use-package evil-surround
         :init
         (global-evil-surround-mode 1))
+
       (use-package evil-tutor)
 
       ;; Basedon Xah's comments, no need multiple-cursors
@@ -272,14 +275,17 @@
         :config
         (add-to-list 'company-backends 'company-web-html))
       (use-package company-elisp
+        :ensure nil
         :bind (("C-c e" . company-elisp))
         :config
         (add-to-list 'company-backends 'company-elisp))
       (use-package company-gtags
+        :ensure nil
         :bind (("C-c g" . company-gtags))
         :config
         (add-to-list 'company-backends 'company-gtags))
       (use-package company-yasnippet
+        :ensure nil
         :defer t
         :config
         (add-to-list 'company-backends 'company-yasnippet))
@@ -447,6 +453,7 @@
       )
 
     (use-package ztree
+      :defer t
       :config
       (evil-set-initial-state 'dashboard-mode 'emacs)
       )
@@ -480,9 +487,30 @@
 
     (use-package helpful
       :bind ( ("C-h f" . helpful-callable)
+              ("C-h C" . helpful-command)
+              ("C-h F" . helpful-function)
               ("C-h v" . helpful-variable)
               ("C-h k" . helpful-key)
               ("C-h ." . helpful-at-point))
+      )
+
+    (use-package evil-collection
+      :after evil
+      :config
+      (evil-collection-init)
+      )
+
+    (use-package hydra
+      :after evil
+      :config
+      (defhydra my-hydra (:exit t)
+        "My hydra"
+        ("b" list-buffers "list-buffers"))
+      (define-key evil-normal-state-map "\\"
+        (lambda ()
+          (interactive)
+          (evil-without-repeat
+            (call-interactively #'my-hydra/body))))
       )
     )
   )
