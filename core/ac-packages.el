@@ -517,8 +517,13 @@
         "Search"
         ("s" helm-ag-this-file "ag-this-file")
         )
+      ;; (define-key evil-normal-state-map (kbd "<SPC>")
+      ;;   (lambda ()
+      ;;     (interactive)
+      ;;     (evil-without-repeat
+      ;;       (call-interactively #'my-hydra-space/body))))
       )
-
+    
     (use-package general
       :init
       (setq general-override-states '(insert
@@ -530,9 +535,9 @@
                                       operator
                                       replace))
       (general-define-key
-      :states '(normal visual motion)
-      :keymaps 'override
-      "SPC" 'my-hydra-space/body)
+        :states '(normal visual motion)
+        :keymaps 'override
+        "SPC" 'my-hydra-space/body)
       )
 
     )
