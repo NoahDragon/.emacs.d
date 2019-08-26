@@ -31,7 +31,7 @@
   ;; fix a bug that ELPA bad request
   (progn
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-    (setcar (cddr package-archives '("gnu" . "http://elpa.gnu.org/package/")))
+    (setcar (cddr package-archives) '("gnu" . "http://elpa.gnu.org/package/"))
     )
   )
 

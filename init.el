@@ -9,8 +9,29 @@
 (defconst IS-MAC   (eq system-type 'darwin))
 (defconst IS-LINUX (eq system-type 'gnu/linux))
 
-;; Configuration
-;; (require 'package)
+;; Set up garbage collection and tweak startup settings.
+(defvar file-name-handler-alist-old file-name-handler-alist)
+
+(setq file-name-handler-alist nil
+      message-log-max 16384
+      gc-cons-threshold 402653184
+      gc-cons-percentage 0.6
+      auto-window-vscroll nil)
+
+(add-hook 'after-init-hook
+          `(lambda ()
+             (setq file-name-handler-alist file-name-handler-alist-old
+                   gc-cons-threshold 402653184
+                   gc-cons-percentage 0.6)
+             (add-hook
+              'focus-out-hook
+              (lambda ()
+                "Lower `gc-cons-threshold' and then run `garbage-collect'."
+                (let ((gc-cons-threshold 800000))
+                  (garbage-collect))))) t)
+
+(let ((default-directory "~/.emacs.d/"))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;; (setq load-prefer-newer t)
 ;; In Emacs 27, this is handled by `early-init'.
@@ -34,11 +55,11 @@
 (setq use-package-verbose t)
 
 ;; idea from https://github.com/interesting-stuff/.emacs.d
-(setq load-path (cons "~/.emacs.d/core"   load-path))
+;; (setq load-path (cons "~/.emacs.d/core"   load-path))
 ;; extra folder means something could be removed later on
-(setq load-path (cons "~/.emacs.d/extra"   load-path))
+;; (setq load-path (cons "~/.emacs.d/extra"   load-path))
 ;; hydra key binding menu
-(setq load-path (cons "~/.emacs.d/hydra" load-path))
+;; (setq load-path (cons "~/.emacs.d/hydra" load-path))
 (require 'ac-packages)
 (require 'ac-functions)
 (ac-load-packages)
