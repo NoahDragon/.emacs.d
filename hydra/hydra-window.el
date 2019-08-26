@@ -4,20 +4,20 @@
 (defhydra hydra-window (:color blue :hint nil)
   "
     Window:
-    Narrow/Widen            ^^Layout^^          ^^Text^^
+    Narrow/Widen            ^^Layout^^          ^^Manage^^
   ------------------------------------------------------------------------------
-    _n_ Narrow Region       _._ Redo           _+_ Increase
-    _w_ Widen               _,_ undo           _-_ Decrease
-    _ND_ Narrow to Defun
-    _NP_ Narrow to Page
+    _n_ Narrow Region       _._ Redo            _<f4>_ Kill Buffer and Window
+    _w_ Widen               _,_ Undo            _o_ Other Window
+    _ND_ Narrow to Defun    _+_ Increase Text   _l_ Delete Other Window
+    _NP_ Narrow to Page     _-_ Decrease Text   _d_ Delete Window
     Frame                   ^^Window^^              ^^Resize^^
   ------------------------------------------------------------------------------
     _m_ Maximize            _=_ Balance             _<right>_ ->
     _F_ Toggle Fullscreen   _r_ Resize Windows      _<left>_ <-
     _0_ Delete Frame        _s_ Toogle WIndow Split _<down>_ Down
     _1_ Delete other Frames _t_ Rotate Windows      _<up>_ Up
-    _2_ Make Frame          _-_ Split Window Below
-    _o_ Other Frame         _|_ Split Window Left
+    _2_ Make Frame          ___ Split Window Below
+    _O_ Other Frame         _|_ Split Window Left
                           _\\_ Split Window Right
 "
   ("n" narrow-to-region)
@@ -27,13 +27,17 @@
   ("." winner-redo)
   ("," winner-undo)
   ("+" text-scale-increase)
-  ("-" text-scale-descrease)
+  ("-" text-scale-decrease)
+  ("<f4>" kill-buffer-and-window)
+  ("l" delete-other-windows)
+  ("o" other-window)
+  ("d" delete-window)
   ("m" toogle-frame-maximized)
   ("F" toggle-frame-fullscreen)
   ("0" delete-frame)
   ("1" delete-other-frames)
   ("2" make-frame-command)
-  ("o" other-frame)
+  ("O" other-frame)
   ("=" balance-windows)
   ("r" nil) ;j-resize-window)
   ("s" toggle-window-split)
@@ -41,8 +45,8 @@
   ("_" split-window-below)
   ("|" split-window-left)
   ("\\" split-window-right)
-  ("<right>" shrink-window-horizontally)
-  ("<left>" enlarge-window-horizontally)
+  ("<right>" enlarge-window-horizontally)
+  ("<left>" shrink-window-horizontally)
   ("<down>" shrink-window)
   ("<up>" enlarge-window)
 )

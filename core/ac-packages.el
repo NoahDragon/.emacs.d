@@ -104,6 +104,13 @@
       (use-package evil-nerd-commenter
         :init
         (evilnc-default-hotkeys))
+      (use-package evil-escape
+        :init
+        (evil-escape-mode)
+        :config
+        (setq-default evil-escape-key-sequence "jk")
+        (setq-default evil-escape-delay 0.1)
+        )
       (define-key evil-normal-state-map (kbd "<down>") 'evil-next-visual-line)
       (define-key evil-normal-state-map (kbd "<up>") 'evil-previous-visual-line)
     )
@@ -330,7 +337,6 @@
     (use-package validate)
 
     (use-package smartparens
-      :defer t
       :after validate
       :config
       (show-smartparens-global-mode 1)
@@ -507,11 +513,14 @@
       (defhydra my-hydra-space (:exit t)
         "Space Shortcuts"
         ("b" helm-buffers-list "list-buffers")
+        ("d" switch-to-dashboard "dashboard")
+        ("r" revert-buffer "revert")
         ("s" my-hydra-search/body "search")
         ("w" hydra-window/body "window")
+        (":" eval-expression "eval expression")
         ("hs" hydra-hs/body "code folding")
         ("p4" hydra-p4/body "p4 version control")
-        ("SPC" evil-avy-goto-word-1 "goto-word")
+        ("SPC" evil-avy-goto-word-0 "goto-word")
         )
       (defhydra my-hydra-search (:exit t)
         "Search"
@@ -523,7 +532,7 @@
       ;;     (evil-without-repeat
       ;;       (call-interactively #'my-hydra-space/body))))
       )
-    
+
     (use-package general
       :init
       (setq general-override-states '(insert
