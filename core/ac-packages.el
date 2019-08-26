@@ -4,39 +4,39 @@
 ;; Code adapted from prelude.el setup.
 
 ;; Required for running this code.
-(require 'cl)
+(require 'cl-lib)
 
 ;; Define what packages are required from package.el.
-(defvar required-packages
-  '(
-     use-package
-    )
-  "A list of packages to ensure are installed at launch.")
+;; (defvar required-packages
+;;   '(
+;;      use-package
+;;     )
+;;   "A list of packages to ensure are installed at launch.")
 
 ;; Function for determining if packages are installed.
-(defun required-packages-installed-p ()
-  (loop for p in required-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
+;; (defun required-packages-installed-p ()
+;;   (loop for p in required-packages
+;;         when (not (package-installed-p p)) do (return nil)
+;;         finally (return t)))
 
 ;; Check which packages need to be installed and install them.
-(unless (required-packages-installed-p)
-  ;; Prevent auto-save-list while installing.
-  (setq auto-save-list-file-name nil)
+;; (unless (required-packages-installed-p)
+;;   ;; Prevent auto-save-list while installing.
+;;   (setq auto-save-list-file-name nil)
 
-  ;; Check for new packages (package versions)
-  (message "%s" "Updating package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
+;;   ;; Check for new packages (package versions)
+;;   (message "%s" "Updating package database...")
+;;   (package-refresh-contents)
+;;   (message "%s" " done.")
 
-  ;; Install the missing packages
-  (dolist (p required-packages)
-    (when (not (package-installed-p p))
-      (package-install p)))
+;;   ;; Install the missing packages
+;;   (dolist (p required-packages)
+;;     (when (not (package-installed-p p))
+;;       (package-install p)))
 
-  ;; Finally, if the compile-log window is active, kill it.
-  (let ((buf (get-buffer "*Compile-Log*")))
-    (when buf (delete-windows-on buf))))
+;;   ;; Finally, if the compile-log window is active, kill it.
+;;   (let ((buf (get-buffer "*Compile-Log*")))
+;;     (when buf (delete-windows-on buf))))
 
 (defun ac-load-packages ()
   (progn
@@ -72,7 +72,6 @@
     ;; Evil
     (setq evil-want-keybinding nil)
     (use-package evil
-      :bind (( "C-c SPC" . evil-avy-goto-word-1))
       :init
       (evil-mode 1)
       :config
@@ -501,17 +500,41 @@
       )
 
     (use-package hydra
-      :after evil
       :config
-      (defhydra my-hydra (:exit t)
-        "My hydra"
-        ("b" list-buffers "list-buffers"))
-      (define-key evil-normal-state-map "\\"
-        (lambda ()
-          (interactive)
-          (evil-without-repeat
-            (call-interactively #'my-hydra/body))))
+      (require 'hydra-p4)
+      (require 'hydra-window)
+      (require 'hydra-hs)
+      (defhydra my-hydra-space (:exit t)
+        "Space Shortcuts"
+        ("b" helm-buffers-list "list-buffers")
+        ("s" my-hydra-search/body "search")
+        ("w" hydra-window/body "window")
+        ("hs" hydra-hs/body "code folding")
+        ("p4" hydra-p4/body "p4 version control")
+        ("SPC" evil-avy-goto-word-1 "goto-word")
+        )
+      (defhydra my-hydra-search (:exit t)
+        "Search"
+        ("s" helm-ag-this-file "ag-this-file")
+        )
       )
+
+    (use-package general
+      :init
+      (setq general-override-states '(insert
+                                      emacs
+                                      hybrid
+                                      normal
+                                      visual
+                                      motion
+                                      operator
+                                      replace))
+      (general-define-key
+      :states '(normal visual motion)
+      :keymaps 'override
+      "SPC" 'my-hydra-space/body)
+      )
+
     )
   )
 

@@ -1,5 +1,8 @@
 # -*- mode: gitignore; --
 
+# Private file (may contain ssh keys or environment specific settings)
+private.el
+
 # Keep gitignore file
 !.gitignore
 

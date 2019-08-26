@@ -10,31 +10,38 @@
 (defconst IS-LINUX (eq system-type 'gnu/linux))
 
 ;; Configuration
-(require 'package)
-(let* ((no-ssl (and IS-WIN
-		(not (gnutls-available-p))))
-    (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(when (< emacs-major-version 24)
-  ;; for important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(when (eq emacs-version "26.2")
-  ;; fix a bug that ELPA bad request
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+;; (require 'package)
 
-(setq load-prefer-newer t)
-(package-initialize)
+;; (setq load-prefer-newer t)
+;; In Emacs 27, this is handled by `early-init'.
+(when (< emacs-major-version 27)
+  (load "~/.emacs.d/early-init.el")
+  (require 'early-init))
+
+;; (package-initialize)
 ;; (unless package-archive-contents (package-refresh-contents))
+(setq package-check-signature nil)
+;; Bootstrap `use-package'.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+(setq use-package-verbose t)
 
 ;; idea from https://github.com/interesting-stuff/.emacs.d
 (setq load-path (cons "~/.emacs.d/core"   load-path))
+;; extra folder means something could be removed later on
+(setq load-path (cons "~/.emacs.d/extra"   load-path))
+;; hydra key binding menu
+(setq load-path (cons "~/.emacs.d/hydra" load-path))
 (require 'ac-packages)
 (require 'ac-functions)
 (ac-load-packages)
-;; extra folder means something could be removed later on
-(setq load-path (cons "~/.emacs.d/extra"   load-path))
 (require 'highlight-sexp)
 (require 'vt-mode)
 
@@ -72,7 +79,7 @@
       (current (float-time (current-time))))
   (dolist (file (directory-files temporary-file-directory t))
     (when (and (backup-file-name-p file)
-               (> (- current (float-time (fifth (file-attributes file))))
+               (> (- current (float-time (cl-fifth (file-attributes file))))
                   week))
       (message "%s" file)
       (delete-file file))))
