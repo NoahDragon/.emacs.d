@@ -131,10 +131,23 @@
               ("C-x C-f" . helm-find-files)
               ("C-x b" . helm-mini)
               ("C-x C-b" . helm-mini)
-              ("C-c i" . helm-imenu))
+              ("C-c i" . helm-semantic-or-imenu)
+              ("C-c l" . helm-locate)
+              ("C-c b" . helm-resume)
+              ("M-y" . helm-show-kill-ring)
+              )
       :init
       (helm-mode 1)
       :config
+      (setq helm-locate-command "es %s -sort run-count %s")
+      (defun helm-es-hook ()
+        (when (and (equal (assoc-default 'name (helm-get-current-source)) "Locate")
+                  (string-match "\\`es" helm-locate-command))
+          (mapc (lambda (file)
+                  (call-process "es" nil nil nil
+                                "-inc-run-count" (convert-standard-filename file)))
+                (helm-marked-candidates))))
+      (add-hook 'helm-find-many-files-after-hook 'helm-es-hook)
       (use-package helm-gtags
         :hook ( (dired-mode . helm-gtags-mode)
                 (eshell-mode . helm-gtags-mode)
@@ -170,7 +183,7 @@
       ;; (use-package helm-rg
       ;;   :bind ("C-M-g" . helm-rg))
       (use-package helm-swoop
-        :bind ( ("M-i" . helm-swoop-without-pre-input)
+        :bind ( ("M-i" . helm-swoop)
                 ("M-I" . helm-swoop-back-to-last-point)
                 ("C-c M-i" . helm-multi-swoop)
                 ("C-x M-i" . helm-multi-swoop-all)
@@ -185,7 +198,7 @@
         (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line)
 
         ;; Save buffer when helm-multi-swoop-edit complete
-        (setq helm-multi-swoop-edit-save t)
+        (setq helm-multi-swoop-edit-save nil)
         ;; If this value is t, split window inside the current window
         (setq helm-swoop-split-with-multiple-windows nil)
         ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
@@ -203,7 +216,15 @@
     )
 
     (use-package rg
-      :bind ("C-M-g" . rg-dwim))
+      :bind ( ("C-M-g" . rg-dwim)
+              ("<M-f3>" . rg-search-project)
+              )
+      :config
+      (rg-define-search rg-search-project
+        "Search project without asking for the file type"
+        :files current
+        :dir project)
+      )
 
     ;; To enable flyspell, the backend aspell should be installed.
     (use-package flyspell-correct-helm
@@ -240,7 +261,10 @@
       ;; (use-package ag)
       ;; Use ripgrep as difault search engine
       (use-package helm-projectile
-        :bind ("<M-f3>" . helm-projectile-rg))
+        :bind ( ("C-c f" . helm-projectile-find-file)
+                ;; ("<M-f3>" . helm-projectile-rg)
+                )
+	)
       )
 
     (use-package neotree
