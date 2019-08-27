@@ -54,7 +54,8 @@
 
     (use-package display-line-numbers
       :config
-      (setq display-line-numbers-type 'relative)
+      (setq display-line-numbers-type t)
+      (setq display-line-numbers-grow-only t)
       (global-display-line-numbers-mode 1))
 
     (use-package eldoc
@@ -516,6 +517,7 @@
         ("d" switch-to-dashboard "dashboard")
         ("r" revert-buffer "revert")
         ("s" my-hydra-search/body "search")
+        ("t" martin-eshell "eshell")
         ("w" hydra-window/body "window")
         (":" eval-expression "eval expression")
         ("hs" hydra-hs/body "code folding")
