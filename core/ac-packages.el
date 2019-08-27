@@ -61,15 +61,6 @@
     (use-package eldoc
       :delight eldoc-mode)
 
-    ;; (use-package nlinum
-    ;;   :ensure t
-    ;;   :defer t
-    ;;   :config
-    ;;   (use-package nlinum-hl
-    ;;     :ensure t
-    ;;     :config
-    ;;     (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
-    ;;     (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows)))
     ;; Evil
     (setq evil-want-keybinding nil)
     (use-package evil
@@ -79,13 +70,17 @@
       (use-package evil-indent-textobject)
       (use-package evil-surround
         :init
-        (global-evil-surround-mode 1))
+        (global-evil-surround-mode 1)
+        :config
+        (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                  (push '(?` . ("`" . "'")) evil-surround-pairs-alist)))
+        )
 
       (use-package evil-tutor)
 
       ;; Basedon Xah's comments, no need multiple-cursors
       ;; Ref: http://ergoemacs.org/misc/emacs_multiple-cursors-mode.html
-      ;; My experience is also negative using multiple-cusors.
+      ;; My experience is also negative using multiple-cursors.
       ;; (use-package evil-mc
       ;;   :ensure t
       ;;   :config
@@ -119,7 +114,6 @@
     (use-package dashboard
       :bind (("<M-f8>" . switch-to-dashboard))
       :init
-      ;; (add-hook 'dashboard-mode-hook 'disable-global-nlinum-mode)
       (add-hook 'dashboard-mode-hook 'disable-global-display-line-numbers-mode)
       (setq dashboard-startup-banner 'logo)
       (setq dashboard-set-heading-icons t)
@@ -170,10 +164,55 @@
         (define-key helm-gtags-mode-map (kbd "M-<") 'helm-gtags-next-history)
         ;(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
         )
-      (use-package helm-ag
-        :bind ("C-M-g" . helm-ag)
+      ;; (use-package helm-ag
+      ;;   :bind ("C-M-g" . helm-ag)
+      ;;   )
+      ;; (use-package helm-rg
+      ;;   :bind ("C-M-g" . helm-rg))
+      (use-package helm-swoop
+        :bind ( ("M-i" . helm-swoop-without-pre-input)
+                ("M-I" . helm-swoop-back-to-last-point)
+                ("C-c M-i" . helm-multi-swoop)
+                ("C-x M-i" . helm-multi-swoop-all)
+                )
+        :config
+        (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
+        (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
+        ;; Move up and down like isearch
+        (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
+        (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
+        (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
+        (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line)
+
+        ;; Save buffer when helm-multi-swoop-edit complete
+        (setq helm-multi-swoop-edit-save t)
+        ;; If this value is t, split window inside the current window
+        (setq helm-swoop-split-with-multiple-windows nil)
+        ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
+        (setq helm-swoop-split-direction 'split-window-horizontally)
+        ;; If nil, you can slightly boost invoke speed in exchange for text color
+        ;; (setq helm-swoop-speed-or-color nil)
+        ;; ;; Go to the opposite side of line from the end or beginning of line
+        (setq helm-swoop-move-to-line-cycle t)
+        ;; Optional face for line numbers
+        ;; Face name is `helm-swoop-line-number-face`
+        ;; (setq helm-swoop-use-line-number-face t)
+        ;; If you prefer fuzzy matching
+        ;; (setq helm-swoop-use-fuzzy-match t)
         )
-      (use-package helm-swoop)
+    )
+
+    (use-package rg
+      :bind ("C-M-g" . rg-dwim))
+
+    ;; To enable flyspell, the backend aspell should be installed.
+    (use-package flyspell-correct-helm
+      :config
+      (when IS-WIN (setq ispell-program-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32/bin/hunspell.exe"))
+      (when IS-MAC (setq ispell-program-name "/usr/local/bin/aspell"))
+      (setq ispell-local-dictionary "en_US")
+      (setq ispell-local-dictionary-alist
+        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
       )
 
     ;; theme
@@ -192,12 +231,17 @@
     (use-package projectile
       :bind ( ("C-x P" . projectile-switch-open-project)
               ("C-x p" . projectile-switch-project)
-              ("<M-f3>" . projectile-ag))
+              ;; ("<M-f3>" . projectile-ag)
+              )
       :config
       (projectile-global-mode)
       (setq projectile-enable-caching t)
       (setq projectile-indexing-method 'hybrid)
-      (use-package ag))
+      ;; (use-package ag)
+      ;; Use ripgrep as difault search engine
+      (use-package helm-projectile
+        :bind ("<M-f3>" . helm-projectile-rg))
+      )
 
     (use-package neotree
       :bind ("<f8>" . neotree-toggle)
@@ -216,7 +260,6 @@
       (setq projectile-switch-project-action 'neotree-projectile-action))
     ;; Program
     (use-package magit
-      :defer t
       :bind ( ("C-x g" . magit-status)
               ("C-x M-g" . magit-dispatch-popup))
       )

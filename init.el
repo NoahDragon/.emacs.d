@@ -199,17 +199,6 @@
       ;; The original value added to the 'image-height' for the test was 19; however,
       ;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
       (> frame-height (+ image-height 17)))))))
-        (setq ispell-program-name "/usr/local/bin/aspell")
-        ;; Use ripgrep as difault search engine
-        (use-package helm-rg
-          :ensure t
-          :bind ("C-M-g" . helm-rg))
-        (use-package projectile-ripgrep
-          :ensure t
-          :bind ("<M-f3>" . projectile-ripgrep))
-        ; To enable flyspell, the backend aspell should be installed.
-        (use-package flyspell-correct-helm
-      :ensure t)
   )
 )
 
@@ -225,7 +214,7 @@
  '(flycheck-checker-error-threshold nil)
  '(package-selected-packages
    (quote
-    (company-anaconda evil-nerd-commenter evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
+    (helm-projectile projectile-ripgrep company-anaconda evil-nerd-commenter evil-mc ag company-c-headers jade-mode evil-indent-textobject evil-tutor evil-surround bind-key editorconfig markdown-mode helm magit smart-mode-line-powerline-theme smart-mode-line powerline monokai-theme evil dashboard helm-gtags use-package yaml-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
