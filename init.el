@@ -33,14 +33,11 @@
 (let ((default-directory "~/.emacs.d/"))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; (setq load-prefer-newer t)
 ;; In Emacs 27, this is handled by `early-init'.
 (when (< emacs-major-version 27)
   (load "~/.emacs.d/early-init.el")
   (require 'early-init))
 
-;; (package-initialize)
-;; (unless package-archive-contents (package-refresh-contents))
 (setq package-check-signature nil)
 ;; Bootstrap `use-package'.
 (unless (package-installed-p 'use-package)
@@ -54,12 +51,6 @@
 (setq use-package-always-ensure t)
 (setq use-package-verbose t)
 
-;; idea from https://github.com/interesting-stuff/.emacs.d
-;; (setq load-path (cons "~/.emacs.d/core"   load-path))
-;; extra folder means something could be removed later on
-;; (setq load-path (cons "~/.emacs.d/extra"   load-path))
-;; hydra key binding menu
-;; (setq load-path (cons "~/.emacs.d/hydra" load-path))
 (require 'ac-packages)
 (require 'ac-functions)
 (ac-load-packages)
@@ -77,10 +68,6 @@
 (setq locale-coding-system 'utf-8)
 (setq-default buffer-file-coding-system 'utf-8)
 (setq inhibit-compacting-font-caches t)
-
-;; Set Evil Mode
-;; (evil-set-initial-state 'dashboard-mode 'emacs)
-;; (evil-define-key 'normal dashboard-mode-map (kbd "M-.") 'helm-gtags-dwim)
 
 ;; Change the comint mode up/down key behavior more like terminal
 (require 'shell)
@@ -134,11 +121,8 @@
   (progn
     ;; Display lambda as λ
     (when (fboundp 'global-prettify-symbols-mode) (global-prettify-symbols-mode 1))
-    ;; Show line number
-    ;; (when (fboundp 'global-nlium-mode) (global-nlinum-mode t))
     )
   )
-
 
 ;; Set keys binding
 ; swith buffers (using bind-key to overwrite the keybindings in other mode)
@@ -175,9 +159,6 @@
 (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
 ;; Indention settings
-; Disable Tab indent
-;; (setq-default indent-tabs-mode nil)
-; Disable the new line auto indent
 ; Cause the electric indent mode has disable, so bind enter to enable newline indent
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -231,19 +212,6 @@
       :ensure t)
   )
 )
-;; (if IS-WIN
-;;   (progn
-;;     (let* (
-;;            (home (getenv "HOME"))
-;;            (mypath (concat
-;;                       (concat home "\\scoop\\shims")
-;;                       (concat home "empty")))
-;;             )
-;;       (setenv "PATH" (concat (mapconcat 'identity mypath ";") (getenv "PATH")))
-;;       (setq exec-path (append mypath (list "." exec-directory)))
-;;       )
-;;     )
-;;   )
 
 ;; Custom Variables
 (custom-set-variables
