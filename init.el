@@ -209,6 +209,7 @@
     (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32"))
     (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/es-1.1.0.15"))
     (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/clang_lib_8.0.0"))
+    (add-to-list 'exec-path (expand-file-name "~/scoop/shims"))
     (setenv "PATH" (mapconcat #'identity exec-path path-separator))
     )
 )

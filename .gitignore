@@ -2,6 +2,8 @@
 
 # Private file (may contain ssh keys or environment specific settings)
 private.el
+.authinfo
+request/
 
 # Keep gitignore file
 !.gitignore

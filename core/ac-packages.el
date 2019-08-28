@@ -76,7 +76,8 @@
                                   (push '(?` . ("`" . "'")) evil-surround-pairs-alist)))
         )
 
-      (use-package evil-tutor)
+      (use-package evil-tutor
+        :commands evil-tutor)
 
       ;; Basedon Xah's comments, no need multiple-cursors
       ;; Ref: http://ergoemacs.org/misc/emacs_multiple-cursors-mode.html
@@ -230,12 +231,13 @@
 
     ;; To enable flyspell, the backend aspell should be installed.
     (use-package flyspell-correct-helm
-      :config
-      (when IS-WIN (setq ispell-program-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32/bin/hunspell.exe"))
-      (when IS-MAC (setq ispell-program-name "/usr/local/bin/aspell"))
-      (setq ispell-local-dictionary "en_US")
-      (setq ispell-local-dictionary-alist
-        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+        :defer t
+        :config
+        (when IS-WIN (setq ispell-program-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32/bin/hunspell.exe"))
+        (when IS-MAC (setq ispell-program-name "/usr/local/bin/aspell"))
+        (setq ispell-local-dictionary "en_US")
+        (setq ispell-local-dictionary-alist
+            '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
       )
 
     ;; theme
@@ -394,7 +396,6 @@
             ("C-c ?" . company-quickhelp-manual-begin)))
 
     (use-package irony
-      :defer t
       :hook ( (c++-mode . irony-mode)
               (c-mode . irony-mode)
               (objc-mode-hook . irony-mode)
@@ -479,15 +480,16 @@
     )
 
     (use-package peep-dired
+      :hook (peep-dired-hook . evil-normalize-keymaps)
       :init
       (evil-define-key 'normal dired-mode-map (kbd "<SPC>") 'peep-dired)
       (evil-define-key 'normal peep-dired-mode-map (kbd "-") 'peep-dired-scroll-page-down)
       (evil-define-key 'normal peep-dired-mode-map (kbd "=") 'peep-dired-scroll-page-up)
       ;; (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
       ;; (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-      (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
       :config
-      (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb")))
+      (setq peep-dired-ignored-extensions '("mkv" "iso" "mp4" "mp3" "exe" "dll" "obj" "o" "pdb"))
+      )
 
     (use-package editorconfig
       :delight editorconfig-mode
@@ -580,22 +582,21 @@
       (require 'hydra-p4)
       (require 'hydra-window)
       (require 'hydra-hs)
+      (require 'hydra-file)
+      (require 'hydra-search)
       (defhydra my-hydra-space (:exit t)
         "Space Shortcuts"
         ("b" helm-buffers-list "list-buffers")
         ("d" switch-to-dashboard "dashboard")
+        ("o" hydra-file/body "file operations")
         ("r" revert-buffer "revert")
-        ("s" my-hydra-search/body "search")
+        ("s" hydra-search/body "search")
         ("t" martin-eshell "eshell")
         ("w" hydra-window/body "window")
         (":" eval-expression "eval expression")
         ("hs" hydra-hs/body "code folding")
         ("p4" hydra-p4/body "p4 version control")
         ("SPC" evil-avy-goto-word-0 "goto-word")
-        )
-      (defhydra my-hydra-search (:exit t)
-        "Search"
-        ("s" helm-ag-this-file "ag-this-file")
         )
       ;; (define-key evil-normal-state-map (kbd "<SPC>")
       ;;   (lambda ()
@@ -618,6 +619,13 @@
         :states '(normal visual motion)
         :keymaps 'override
         "SPC" 'my-hydra-space/body)
+      )
+
+    (use-package leetcode
+      :commands leetcode
+      :config
+      (setq leetcode-prefer-language "python3")
+      (setq leetcode-prefer-sql "mysql")
       )
 
     )

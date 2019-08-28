@@ -15,6 +15,11 @@ if (!(Test-Path 'env:GTAGSFORCECPP')){
     [System.Environment]::SetEnvironmentVariable('GTAGSFORCECPP',1,[System.EnvironmentVariableTarget]::User)
 }
 
+if (!(Test-Path 'env:P4CONFIG')){
+    echo "Adding P4CONFIG environment variable..."
+    [System.Environment]::SetEnvironmentVariable('P4CONFIG','p4config',[System.EnvironmentVariableTarget]::User)
+}
+
 if (!(Get-Command 'scoop' -errorAction SilentlyContinue)){
     echo "Installing scoop.sh..."
     # Install the scoop
@@ -23,6 +28,6 @@ if (!(Get-Command 'scoop' -errorAction SilentlyContinue)){
 
 scoop bucket add extras
 scoop install aria2
-scoop install global ag ripgrep universal-ctags pandoc everything
+scoop install curl global ag ripgrep universal-ctags pandoc everything
 
 pause
