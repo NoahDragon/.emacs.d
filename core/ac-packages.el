@@ -231,7 +231,6 @@
 
     ;; To enable flyspell, the backend aspell should be installed.
     (use-package flyspell-correct-helm
-        :defer t
         :config
         (when IS-WIN (setq ispell-program-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32/bin/hunspell.exe"))
         (when IS-MAC (setq ispell-program-name "/usr/local/bin/aspell"))
@@ -430,7 +429,6 @@
       :after yasnippet)
 
     (use-package p4
-      :defer t
       :config
       (p4-set-p4-config "p4config"))
 
@@ -579,25 +577,7 @@
 
     (use-package hydra
       :config
-      (require 'hydra-p4)
-      (require 'hydra-window)
-      (require 'hydra-hs)
-      (require 'hydra-file)
-      (require 'hydra-search)
-      (defhydra my-hydra-space (:exit t)
-        "Space Shortcuts"
-        ("b" helm-buffers-list "list-buffers")
-        ("d" switch-to-dashboard "dashboard")
-        ("o" hydra-file/body "file operations")
-        ("r" revert-buffer "revert")
-        ("s" hydra-search/body "search")
-        ("t" martin-eshell "eshell")
-        ("w" hydra-window/body "window")
-        (":" eval-expression "eval expression")
-        ("hs" hydra-hs/body "code folding")
-        ("p4" hydra-p4/body "p4 version control")
-        ("SPC" evil-avy-goto-word-0 "goto-word")
-        )
+      (require 'hydra-space)
       ;; (define-key evil-normal-state-map (kbd "<SPC>")
       ;;   (lambda ()
       ;;     (interactive)
@@ -618,7 +598,7 @@
       (general-define-key
         :states '(normal visual motion)
         :keymaps 'override
-        "SPC" 'my-hydra-space/body)
+        "SPC" 'hydra-space/body)
       )
 
     (use-package leetcode

@@ -1,4 +1,4 @@
-;;; hydra-file.el --- File operations with Hydra. -*- lexical-binding: t -*-
+;;; hydra-search.el --- Search operations with Hydra. -*- lexical-binding: t -*-
 
 (defhydra hydra-search (:color blue :hint nil)
 "

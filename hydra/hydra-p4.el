@@ -4,7 +4,7 @@
 (defun my-p4-dir ()
   "Return root directory of perforce directory.
 Fall back to `projectile-project-root'."
-  (if-let (root (locate-dominating-file default-directory ".p4config"))
+  (if-let (root (locate-dominating-file default-directory (getenv "P4CONFIG")))
       root
     (projectile-project-root)))
 
