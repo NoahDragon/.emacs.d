@@ -178,6 +178,7 @@
         ".obj" ".map"))
 
 ;; System Specific
+; Mac
 (if IS-MAC
     (progn
     ;; Fix the logo display issue on Mac
@@ -200,6 +201,16 @@
       ;; that causes the test to fail on X11 by about 1.5 -- so use 17 instead.
       (> frame-height (+ image-height 17)))))))
   )
+)
+; Windows
+(if IS-WIN
+  (progn
+    ;; Fix the issue that system PATH not synced
+    (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/hunspell-1.3.2-3-w32"))
+    (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/es-1.1.0.15"))
+    (add-to-list 'exec-path (expand-file-name "~/.emacs.d/thirdparties/win/clang_lib_8.0.0"))
+    (setenv "PATH" (mapconcat #'identity exec-path path-separator))
+    )
 )
 
 ;; Custom Variables

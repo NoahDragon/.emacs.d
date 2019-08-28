@@ -1,6 +1,6 @@
 -*- mode: markdown -*-
 
-Need Manually add the Path to Windows environment.
+Need Manually add the Path to Windows environment. OR add the path in the init.el.
 
 ~~Tried to use "setx" in batch, it could not handle the # of char exceeding 1024, and will truncate.~~
 Powershell has command to set the environment variables.
