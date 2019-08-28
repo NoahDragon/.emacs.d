@@ -139,15 +139,17 @@
       :init
       (helm-mode 1)
       :config
-      (setq helm-locate-command "es %s -sort run-count %s")
-      (defun helm-es-hook ()
-        (when (and (equal (assoc-default 'name (helm-get-current-source)) "Locate")
-                  (string-match "\\`es" helm-locate-command))
-          (mapc (lambda (file)
-                  (call-process "es" nil nil nil
-                                "-inc-run-count" (convert-standard-filename file)))
-                (helm-marked-candidates))))
-      (add-hook 'helm-find-many-files-after-hook 'helm-es-hook)
+      (when IS-WIN
+        (setq helm-locate-command "es %s -sort run-count %s")
+        (defun helm-es-hook ()
+          (when (and (equal (assoc-default 'name (helm-get-current-source)) "Locate")
+                    (string-match "\\`es" helm-locate-command))
+            (mapc (lambda (file)
+                    (call-process "es" nil nil nil
+                                  "-inc-run-count" (convert-standard-filename file)))
+                  (helm-marked-candidates))))
+        (add-hook 'helm-find-many-files-after-hook 'helm-es-hook)
+        )
       (use-package helm-gtags
         :hook ( (dired-mode . helm-gtags-mode)
                 (eshell-mode . helm-gtags-mode)
