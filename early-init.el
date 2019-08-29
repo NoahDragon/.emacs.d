@@ -27,11 +27,11 @@
 (when (< emacs-major-version 24)
   ;; for important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(when (and (eq emacs-version "26.2") IS-MAC)
+(when (and (string= emacs-version "26.2") IS-MAC)
   ;; fix a bug that ELPA bad request
   (progn
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-    (setcar (cddr package-archives) '("gnu" . "http://elpa.gnu.org/package/"))
+    (setcar (cddr package-archives) '("gnu" . "http://elpa.gnu.org/packages/"))
     )
   )
 
