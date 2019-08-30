@@ -133,6 +133,7 @@
   ("C-M-S-<tab>" . previous-buffer)
   ("C-<f4>" . kill-buffer-and-window)
   )
+(windmove-default-keybindings)
 ; Misc
 (bind-keys
   ("C-M-m" . toggle-frame-fullscreen)
