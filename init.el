@@ -215,6 +215,8 @@
     )
 )
 
+(server-start)
+
 ;; Custom Variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

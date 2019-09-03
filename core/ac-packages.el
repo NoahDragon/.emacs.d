@@ -606,6 +606,7 @@
       :config
       (setq leetcode-prefer-language "python3")
       (setq leetcode-prefer-sql "mysql")
+      (setq leetcode-solving-layout 'tian)
       )
 
     )
